@@ -1,2 +1,2 @@
-# wx-pleader
-微信小程序pleader
+# wx-debater
+微信小程序debater
