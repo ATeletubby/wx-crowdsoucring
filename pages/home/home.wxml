@@ -1,2 +1,2 @@
 <!--pages/home/home.wxml-->
-<button bindtap="query">search</button>
+<button bindtap="query">123</button>
