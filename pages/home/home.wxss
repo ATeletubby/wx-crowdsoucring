@@ -1,1 +1,65 @@
 /* pages/home/home.wxss */
+.topbar{
+  
+}
+.top-searchbar {
+  background-color: #F8D34E !important;
+}
+.navbar{
+  position: relative;
+  display:flex;
+  background: #ffffff;
+  flex-wrap: wrap;
+}
+.navbar span{
+  color:#B8B8B8;
+}
+.navbar_item{
+  position: relative;
+  display: block;
+  flex: 1;
+  padding: 14rpx 0;
+  text-align: center;
+  font-size: 24rpx;
+  color:#737C93;
+}
+.navbar_item_icon{
+
+}
+.topbar_content{
+  position: absolute;
+  padding: 20rpx 0;
+  background-color: #ffffff;
+}
+.topbar_tag{
+  display: flex;
+  flex-wrap:wrap;
+  justify-content: flex-start;
+  align-content: space-evenly;
+}
+.topbar_tag button{
+  /* flex:1; */
+  width: 160rpx;
+  height:60rpx;
+  background: none;
+  margin-bottom: 20rpx;
+  padding:0;
+  border:2rpx solid #ccc;
+  line-height: 60rpx;
+  font-size: 22rpx;
+  color:#737C93;
+}
+.topbar_button{
+  display: flex;
+  margin-top: 100rpx;
+}
+.topbar_button button{
+  border-radius: 40rpx;
+  font-size: 24rpx;
+  color:#737C93;
+}
+
+.list{
+  padding: 30rpx;
+  /* display: flex; */
+}

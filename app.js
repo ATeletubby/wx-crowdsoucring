@@ -38,8 +38,24 @@ App({
         }
       }
     })
+    // wx.loadFontFace({
+    //   family: 'Bitstream Vera Serif Bold',
+    //   source: 'url("https://sungd.github.io/Pacifico.ttf")',
+    //   success: console.log
+    // })
   },
-  globalData: {
-    userInfo: null
-  }
+  onLoad: function(options){
+    wx.loadFontFace({
+      family: "PingFangSC-Medium",
+      source: 'url("https://bwc.waimaimingtang.com/images/config/PingFangSCMedium.ttf")',
+      success(res) {
+        console.log('2成功')
+      },
+      fail: function (res) {
+        console.log('2失败')
+      }});
+  },
+    globalData: {
+      userInfo: null
+    }
 })

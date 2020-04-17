@@ -6,31 +6,34 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
+    "navigationBarTitleText": "校园众包",
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor":"#F8D34E"
   },
   "tabBar": {
     "list":[
       {                                                                
         "pagePath":"pages/home/home",
-        "text":"首页",
+        "text":"发现",
         "iconPath":"/assets/images/tabbar/home.png",
         "selectedIconPath": "/assets/images/tabbar/home_active.png"
       },
       {
         "pagePath": "pages/category/category",
-        "text": "发现",
+        "text": "发布",
         "iconPath": "/assets/images/tabbar/category.png",
         "selectedIconPath":"/assets/images/tabbar/category_active.png"
       },
       {
         "pagePath": "pages/profile/profile",
-        "text": "个人",
+        "text": "我的",
         "iconPath": "/assets/images/tabbar/profile.png",
         "selectedIconPath": "/assets/images/tabbar/profile_active.png"
       }
     ]
+  },
+  "usingComponents": {
+    "fa":"components/includes/fa/index"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

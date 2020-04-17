@@ -1,0 +1,27 @@
+<a class="list-item">
+  <view class="list-item_hd">
+    <image class="list-item_thumb" mode="widthFix"
+    src="../../assets/images/detail/shop.png" />
+  </view>
+  <view class="list-item_bd">
+    <view class="list-cell">
+      <span class="list-cell_bd">小白</span>
+      <span class="list-cell_ft">距离你<b>250m</b></span>
+    </view>
+    <view class="list-cell">
+      <span class="list-cell_bd list-timebegin">12:30</span>
+      <span class="list-cell_ft">任务路径<b>350m</b></span>
+    </view>
+    <view class="list-cell-tag">
+        <span class="list-tag">#配送任务</span>
+        <span class="list-tag">#光电楼</span>
+    </view>
+    <view class="list-cell">
+      <span class="list-cell_bd list-icon">
+        <fa icon="fa fa-yen"><span class="list-icon-info">10</span></fa>
+        <fa icon="fa fa-eye"><span class="list-icon-info">150</span></fa>
+      </span>
+      <span class="list-cell_ft">...</span>
+    </view>
+  </view>
+</a>

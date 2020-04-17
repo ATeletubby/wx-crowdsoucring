@@ -1,2 +1,37 @@
-<!--pages/home/home.wxml-->
-<button bindtap="query">123</button>
+<view class="topbar">
+  <mp-searchbar ext-class="top-searchbar" bindselectresult="selectResult" search="{{search}}"></mp-searchbar>
+  <view class="navbar"> 
+    <view class="navbar_item" bindtap="openTopbarContent">
+      任务类型
+       <fa icon="fa fa-caret-down"></fa>
+    </view>
+    <span>|</span>
+    <view class="navbar_item">
+      筛选
+      <fa icon="fa fa-caret-down"></fa>
+    </view>
+  </view>
+  <view class="topbar_content" wx:if="{{isType}}">
+      <view class="topbar_tag">
+        <button>配送任务</button>
+         <button>2</button>
+         <button>2</button>
+         <button>2</button>
+         <button>2</button>
+         <button>2</button>
+         <button>2</button>
+      </view>
+      <view class="topbar_button">
+        <button>清空</button>
+        <button>确认</button>
+      </view>
+  </view>
+</view>
+<view class="list">
+  <task-box></task-box>
+  <task-box></task-box>
+  <task-box></task-box>
+  <task-box></task-box>
+  <task-box></task-box>
+</view>
+

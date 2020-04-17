@@ -1,4 +1,12 @@
-/**app.wxss**/
+@import 'assets/weui-miniprogram/weui-wxss/dist/style/weui.wxss';
+
+/* @font-face {
+  font-family:'pingfangSC';
+  src: url('https://com/Family/ygyxsziti2.0.ttf');
+} */
+page {
+  background-color: #eee;
+}
 .container {
   height: 100%;
   display: flex;
@@ -7,4 +15,6 @@
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
+  background-color: #fff;
 } 
+

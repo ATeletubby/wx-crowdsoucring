@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "mp-searchbar": "../../assets/weui-miniprogram/searchbar/searchbar",
+    "task-box": "../../components/task-box/task-box"
+  },
+  "navigationBarTitleText": "校园众包"
 }
