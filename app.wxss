@@ -16,5 +16,8 @@ page {
   padding: 200rpx 0;
   box-sizing: border-box;
   background-color: #fff;
-} 
+}
+button.submit{
+  background-color: #F8D34E;
+}
 

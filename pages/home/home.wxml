@@ -1,37 +1,37 @@
 <view class="topbar">
   <mp-searchbar ext-class="top-searchbar" bindselectresult="selectResult" search="{{search}}"></mp-searchbar>
   <view class="navbar"> 
-    <view class="navbar_item" bindtap="openTopbarContent">
+    <view id="type_bar" class="navbar_item {{isType ? 'navbar_item_selected' : ''}}" bindtap="openTopbarContent">
       任务类型
-       <fa icon="fa fa-caret-down"></fa>
+       <fa icon="fa {{isType ? 'fa-caret-up' : 'fa-caret-down'}}"></fa>
     </view>
     <span>|</span>
-    <view class="navbar_item">
+    <view id="filter_bar" class="navbar_item {{isFilter ? 'navbar_item_selected' : ''}}" bindtap="openTopbarContent">
       筛选
-      <fa icon="fa fa-caret-down"></fa>
+      <fa icon="fa {{isFilter ? 'fa-caret-up' : 'fa-caret-down'}}"></fa>
     </view>
   </view>
   <view class="topbar_content" wx:if="{{isType}}">
       <view class="topbar_tag">
-        <button>配送任务</button>
-         <button>2</button>
-         <button>2</button>
-         <button>2</button>
-         <button>2</button>
-         <button>2</button>
-         <button>2</button>
+         <button wx:for="{{typeItems}}" wx:key="value" bindtap="typeItems" label="selectedItems" value="{{item.value}}" data-id="{{item.value}}" class="{{ item.status ? '.topbar_tag_selected' : '' }}">{{item.name}}</button>
       </view>
       <view class="topbar_button">
-        <button>清空</button>
-        <button>确认</button>
+        <button type="reset">清空</button>
+        <button class="submit">确认</button>
+      </view>
+  </view>
+  <view class="topbar_content" wx:if="{{isFilter}}">
+      <view class="topbar_tag">
+            <button wx:for="{{selectedItems}}" wx:key="value" bindtap="selectedItems"  label="selectedItems" value="{{item.value}}" data-id="{{item.value}}" class="{{ item.status ? '.topbar_tag_selected' : '' }}">{{item.name}}</button>
+      </view>
+      <view class="topbar_button">
+        <button type="reset">清空</button>
+        <button class="submit">确认</button>
       </view>
   </view>
 </view>
+
 <view class="list">
-  <task-box></task-box>
-  <task-box></task-box>
-  <task-box></task-box>
-  <task-box></task-box>
-  <task-box></task-box>
+  <task-box wx:for="{{tasks}}" wx:key="value"></task-box>
 </view>
 

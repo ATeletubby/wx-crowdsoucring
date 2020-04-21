@@ -18,6 +18,12 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    openTaskDetail: function(){
+      console.log(111)
+      wx.navigateTo({
+        title: 'go',
+        url: '/pages/detail/detail'
+      })
+    }
   }
 })

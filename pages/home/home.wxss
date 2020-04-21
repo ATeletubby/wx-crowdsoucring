@@ -23,6 +23,9 @@
   font-size: 24rpx;
   color:#737C93;
 }
+.navbar_item.navbar_item_selected{
+  color:#000;
+}
 .navbar_item_icon{
 
 }
@@ -39,14 +42,15 @@
 }
 .topbar_tag button{
   /* flex:1; */
-  width: 160rpx;
+  width: 200rpx;
   height:60rpx;
   background: none;
   margin-bottom: 20rpx;
   padding:0;
   border:2rpx solid #ccc;
+  border-radius: 10rpx;
   line-height: 60rpx;
-  font-size: 22rpx;
+  font-size: 24rpx;
   color:#737C93;
 }
 .topbar_button{
@@ -57,6 +61,10 @@
   border-radius: 40rpx;
   font-size: 24rpx;
   color:#737C93;
+}
+.topbar_tag button.topbar_tag_selected{
+  background-color: #F8D34E;
+  border: none;
 }
 
 .list{

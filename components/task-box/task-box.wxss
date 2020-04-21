@@ -20,8 +20,9 @@
 .list-item_thumb{
   width: 100rpx;
   max-height: 100%;
-  vertical-align: top;
-  border-radius: 45%;
+  height: 100rpx;
+  /* vertical-align: top; */
+  border-radius: 50%;
   border:1px solid #ccc;
 }
 

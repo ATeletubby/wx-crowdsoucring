@@ -1,7 +1,7 @@
-<a class="list-item">
+<view class="list-item" bindtap="openTaskDetail">
   <view class="list-item_hd">
-    <image class="list-item_thumb" mode="widthFix"
-    src="../../assets/images/detail/shop.png" />
+    <image class="list-item_thumb" mode="heightFix"
+    src="../../assets/images/detail/avatar.jpg" />
   </view>
   <view class="list-item_bd">
     <view class="list-cell">
@@ -24,4 +24,4 @@
       <span class="list-cell_ft">...</span>
     </view>
   </view>
-</a>
+</view>

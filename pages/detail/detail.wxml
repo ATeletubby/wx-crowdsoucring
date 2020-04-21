@@ -1,0 +1,25 @@
+<!--任务详情页-->
+<view class="detail">
+  <view class="detail_block">
+    <text class="detail_title">任务发布者</text>
+    <view class="detail_top_content">
+      <view class="detail_top_hd">
+        <cover-image class="detail_top_thumb" mode="heightFix"
+      src="../../assets/images/detail/avatar.jpg" />
+      </view>
+      <view class="detail_top_bd">
+        <text class="detail-text">小明</text>
+        <text class="detail-text detail-time">一小时前发布</text>
+        <!-- <text class="detail-text detail-phone">111111</text> -->
+      </view>
+    </view>
+  </view>
+  <view class="detail_block">
+    <text class="detail_title">任务发布者</text>
+    <view class="detail_top_content">
+      <text class="detail-text">小明</text>
+      <text class="detail-text">小明</text>
+      <text class="detail-text">小明</text>
+    </view>
+  </view>
+</view>
