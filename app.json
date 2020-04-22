@@ -1,7 +1,7 @@
 {
   "pages": [
     "pages/home/home",
-    "pages/category/category",
+    "pages/publish/publish",
     "pages/profile/profile",
     "pages/detail/detail"
   ],
@@ -20,7 +20,7 @@
         "selectedIconPath": "/assets/images/tabbar/home_active.png"
       },
       {
-        "pagePath": "pages/category/category",
+        "pagePath": "pages/publish/publish",
         "text": "发布",
         "iconPath": "/assets/images/tabbar/category.png",
         "selectedIconPath": "/assets/images/tabbar/category_active.png"
@@ -34,7 +34,8 @@
     ]
   },
   "usingComponents": {
-    "fa": "components/includes/fa/index"
+    "fa": "components/includes/fa/index",
+    "mp-dialog": "components/weui-miniprogram/dialog/dialog"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

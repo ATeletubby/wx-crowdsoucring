@@ -33,15 +33,17 @@
   position: absolute;
   padding: 20rpx 0;
   background-color: #ffffff;
+  z-index: 1;
 }
 .topbar_tag{
   display: flex;
   flex-wrap:wrap;
-  justify-content: flex-start;
-  align-content: space-evenly;
+  justify-content: space-between;
+  align-content: flex-start;
 }
 .topbar_tag button{
-  /* flex:1; */
+  display: inline-block;
+  flex: 0 0 auto;
   width: 200rpx;
   height:60rpx;
   background: none;
@@ -58,7 +60,7 @@
   margin-top: 100rpx;
 }
 .topbar_button button{
-  border-radius: 40rpx;
+  border-radius: 5%;
   font-size: 24rpx;
   color:#737C93;
 }

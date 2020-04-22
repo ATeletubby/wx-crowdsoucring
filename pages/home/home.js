@@ -19,6 +19,14 @@ Page({
       name: '??任务',
       value: '2',
       status: false
+    },{
+      name: '??任务',
+      value: '2',
+      status: false
+    },{
+      name: '??任务',
+      value: '2',
+      status: false
     }],
     selectedItems: [{
       name: '按照距离降序',

@@ -10,16 +10,51 @@
       <view class="detail_top_bd">
         <text class="detail-text">小明</text>
         <text class="detail-text detail-time">一小时前发布</text>
+        <text class="detail-text detail-time">浏览数：</text>
         <!-- <text class="detail-text detail-phone">111111</text> -->
       </view>
     </view>
   </view>
   <view class="detail_block">
-    <text class="detail_title">任务发布者</text>
-    <view class="detail_top_content">
-      <text class="detail-text">小明</text>
-      <text class="detail-text">小明</text>
-      <text class="detail-text">小明</text>
+    <text class="detail_title">任务详情</text>
+    <view class="detail_top_content flex-column">
+      <view class="detail-content flex-row flex-cell">
+        <text class="flex-row flex-cell detail-label">任务类型</text>
+        <text class="flex-row flex-cell">{{task.t_type.value}}</text>
+      </view>
+      <view class="detail-content flex-row flex-cell">
+        <text class="flex-row flex-cell detail-label">发布时间</text>
+        <text class="flex-row flex-cell">{{task.t_time.value}}</text>
+      </view>
+      <view class="detail-content flex-row flex-cell">
+        <text class="flex-row flex-cell detail-label">截止时间</text>
+        <text class="flex-row flex-cell">{{task.t_deadline.value}}</text>
+      </view>
+      <view class="detail-content flex-row flex-cell">
+        <text class="flex-row flex-cell detail-label">相关地点</text>
+        <view class="flex-row flex-cell">{{task.t_venue.value}}<button class="map" size="mini" bindtap="showMap">地图查看</button></view>        
+      </view>
+      <view class="detail-content flex-row flex-cell">
+        <text class="flex-row flex-cell detail-label">任务费用</text>
+        <text class="flex-row flex-cell">{{task.t_cost.value}}</text>
+      </view>
+      <view class="detail-content flex-row flex-cell">
+        <text class="flex-row flex-cell detail-label">任务报酬</text>
+        <text class="flex-row flex-cell">{{task.t_price.value}}</text>
+      </view>
+      <view class="detail-content flex-row flex-cell">
+        <text class="flex-row flex-cell detail-label">备注内容</text>
+        <text class="flex-row flex-cell detail-context">{{task.t_context.value}}</text>
+      </view>
     </view>
+    <button class="submit detail-btn" wx:if="{{task.t_status == 0}}" bindtap="showDialog">接受任务</button>
+    <button class="detail-btn" wx:elif="{{task.t_status == 1}}">任务已接受</button>
   </view>
+  <mp-dialog title="" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
+      <view>确认接受任务？未完成任务会影响声誉</view>
+  </mp-dialog>
+  <mp-dialog title="" show="{{mapShow}}" bindbuttontap="tapDialogMapButton" buttons="{{mapbuttons}}" ext-class="map-dialog">
+    <map id="map" longitude="113.324520" latitude="23.099994" scale="14" controls="{{controls}}" bindcontroltap="controltap" markers="{{map.markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width: 100%; height: 300px;"></map>
+  </mp-dialog>
+
 </view>

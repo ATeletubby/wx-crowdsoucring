@@ -1,0 +1,48 @@
+
+<view class="pub"> 
+  <view class="pub-message">上拉查看任务告知</view>
+  <view class="weui-cell weui-cell_select">
+    <text class="pub-number">1</text><text class="pub-title">任务类型</text>
+    <picker bindchange="taskTypeChange" value="{{taskTypeIndex}}" range="{{taskType}}" range-key="name">
+      <view class="weui-select weui-select_in-select-after">{{taskType[taskTypeIndex].name}}</view>
+    </picker>
+  </view>
+  <view class="weui-cell weui-cell_select">
+    <text class="pub-number">2</text><text class="pub-title">截止时间</text>
+    <picker bindchange="taskTypeChange" value="{{taskTypeIndex}}" range="{{taskType}}" range-key="name">
+      <view class="weui-select weui-select_in-select-after">{{taskType[taskTypeIndex].name}}</view>
+    </picker>
+  </view>
+  <view class="weui-cell weui-cell_select">
+    <text class="pub-number">3</text><text class="pub-title">任务地点</text>
+    <picker bindchange="taskTypeChange" value="{{taskTypeIndex}}" range="{{taskType}}" range-key="name">
+      <view class="weui-select weui-select_in-select-after">{{taskType[taskTypeIndex].name}}</view>
+    </picker>
+  </view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell" style="padding-left:0">
+      <text class="pub-number">4</text><text class="pub-title">任务详情</text></view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请输入文本" style="height: 5.3em" />
+        <view class="weui-textarea-counter">0/200</view>
+      </view>
+    </view>
+  </view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell" style="padding-left:0">
+      <text class="pub-number">5</text><text class="pub-title">任务费用</text>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <input class="weui-input" placeholder="任务所需成本" />
+      </view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <input class="weui-input" placeholder="任务报酬" />
+      </view>
+    </view>
+  </view>
+  <button class="submit">确认并支付</button>
+</view>

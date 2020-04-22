@@ -1,6 +1,6 @@
 <view class="list-item" bindtap="openTaskDetail">
   <view class="list-item_hd">
-    <image class="list-item_thumb" mode="heightFix"
+    <cover-image class="list-item_thumb" mode="heightFix"
     src="../../assets/images/detail/avatar.jpg" />
   </view>
   <view class="list-item_bd">
