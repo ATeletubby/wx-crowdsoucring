@@ -19,7 +19,6 @@ Component({
    */
   methods: {
     openTaskDetail: function(){
-      console.log(111)
       wx.navigateTo({
         title: 'go',
         url: '/pages/detail/detail'

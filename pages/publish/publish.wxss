@@ -20,6 +20,18 @@
   text-align: center;
   font-size: 24rpx;
 }
+.pub-price{
+  flex-direction: row-reverse;
+  color: #737C93;
+}
+.weui-cell.pub-subtitle{
+  padding-left: 0;
+}
 .submit{
   margin-top: 20rpx;
+}
+
+.pub-icon{
+  color: #F79840;
+  margin-left:10rpx;
 }

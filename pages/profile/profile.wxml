@@ -1,2 +1,20 @@
-<!--pages/profile/profile.wxml-->
-<text>pages/profile/profile.wxml</text>
+<view class="profile_top">
+    <view class="profile_top_hd">
+      <cover-image class="profile_top_thumb" mode="heightFix"
+    src="../../assets/images/detail/avatar.jpg" />
+    </view>
+    <view class="profile_top_bd">
+      <text class="profile-text">小明</text>
+      <fa icon="fa fa-star" style="color:#FFF08D;font-size:40rpx" wx:for="{{reputation.round}}" wx:key="item"></fa>
+      <fa icon="fa fa-star-half" style="color:#FFF08D;font-size:40rpx" wx:if="{{reputation.half}}"></fa>
+      <view class="">
+        <text class="profile-text profile-data">完成任务：12</text>
+        <text class="profile-text profile-data">发布任务：12</text>
+      </view>
+    </view>
+    <fa icon="fa fa-cog" class="config-icon" bindtap="openConfig"></fa>
+</view>
+<view class="profile_navbar">
+  <view class="profile_navbar-item {{ isPublish ? 'selected_left' : ''  }}" style="border-radius: 0 0 20rpx 0" bindtap="changePublish">发布的任务</view>
+  <view class="profile_navbar-item {{ !isPublish ? 'selected_right' : ''  }}" style="border-radius: 0 0 0 20rpx" bindtap="changeParticipate">参与的任务</view>
+</view>

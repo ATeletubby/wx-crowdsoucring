@@ -5,62 +5,43 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    reputation: {
+      value: 4.5,
+      half: false,
+      round: 0,
+    },
+    isPublish: true,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    
+    // 得到用户的reputation
+    this.setData({
+      'reputation.round' : parseInt(this.data.reputation.value)
+    });
+    if (this.data.reputation.value - this.data.reputation.round >= 0.5){
+      this.setData({
+        'reputation.half': true
+      });
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  openConfig: function(){
+    wx.navigateTo({
+      title: 'goConfig',
+      url: '/pages/config/config'
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  changePublish: function(){
+    this.setData({
+      isPublish: true
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  changeParticipate: function () {
+    this.setData({
+      isPublish: false
+    })
   }
 })

@@ -3,7 +3,8 @@
     "pages/home/home",
     "pages/publish/publish",
     "pages/profile/profile",
-    "pages/detail/detail"
+    "pages/detail/detail",
+    "pages/config/config"
   ],
   "window": {
     "backgroundTextStyle": "light",
