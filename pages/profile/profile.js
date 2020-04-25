@@ -11,6 +11,18 @@ Page({
       round: 0,
     },
     isPublish: true,
+    pubTasks:[{}],
+    parTasks:[{}],
+    slideButtons: [{
+      extClass: 'profile-zd',
+      text: '置顶',
+      src: '/page/weui/cell/icon_love.svg', // icon的路径
+    }, {
+      type: 'warn',
+      text: '删除',
+      extClass: 'test',
+      src: '/page/weui/cell/icon_del.svg', // icon的路径
+    }],
   },
 
   /**

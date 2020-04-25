@@ -67,6 +67,13 @@
 					"id": -1,
 					"name": "pages/profile/profile",
 					"pathName": "pages/profile/profile",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/config/config",
+					"pathName": "pages/config/config",
 					"scene": null
 				}
 			]

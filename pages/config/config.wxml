@@ -1,2 +1,13 @@
-<!--pages/config/config.wxml-->
-<text>pages/config/config.wxml</text>
+<button open-type="feedback" class="feedback-button">
+  <view class="config-block">
+    意见反馈
+  </view>
+</button>
+
+<view class="config-block"  bindtap="showContact">
+  联系我们
+</view>
+<mp-dialog title="联系我们" show="{{contactShow}}" bindbuttontap="closeContact" buttons="{{[{ text: '确定' }]}}">
+     <cover-image class="detail_top_thumb" mode="heightFix"
+      src="../../assets/images/contact.jpg" />
+</mp-dialog>

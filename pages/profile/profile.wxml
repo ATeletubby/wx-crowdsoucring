@@ -1,3 +1,4 @@
+<view style="">
 <view class="profile_top">
     <view class="profile_top_hd">
       <cover-image class="profile_top_thumb" mode="heightFix"
@@ -8,8 +9,8 @@
       <fa icon="fa fa-star" style="color:#FFF08D;font-size:40rpx" wx:for="{{reputation.round}}" wx:key="item"></fa>
       <fa icon="fa fa-star-half" style="color:#FFF08D;font-size:40rpx" wx:if="{{reputation.half}}"></fa>
       <view class="">
-        <text class="profile-text profile-data">完成任务：12</text>
         <text class="profile-text profile-data">发布任务：12</text>
+        <text class="profile-text profile-data">参与任务：12</text>  
       </view>
     </view>
     <fa icon="fa fa-cog" class="config-icon" bindtap="openConfig"></fa>
@@ -17,4 +18,45 @@
 <view class="profile_navbar">
   <view class="profile_navbar-item {{ isPublish ? 'selected_left' : ''  }}" style="border-radius: 0 0 20rpx 0" bindtap="changePublish">发布的任务</view>
   <view class="profile_navbar-item {{ !isPublish ? 'selected_right' : ''  }}" style="border-radius: 0 0 0 20rpx" bindtap="changeParticipate">参与的任务</view>
+</view>
+<view class="profile_content">
+  <view class="notask" wx:if="{{isPublish && pubTasks.length == 0}}">
+    <fa icon="fa fa-folder-open" class="notask-icon"></fa>
+    <text>你还未发布任何任务</text>
+  </view>
+  <view class="notask" wx:if="{{!isPublish && parTasks.length == 0}}">
+    <fa icon="fa fa-copy" class="notask-icon"></fa>
+    <text>你还未参与任何任务</text>
+  </view>
+  <block wx:if="{{isPublish}}">
+    <view class="weui-cells">
+      <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap">
+        <view class="profile-item">
+          <view class="profile-item_hd">
+            <cover-image class="profile-item_thumb" mode="heightFix"
+            src="../../assets/images/detail/avatar.jpg" />
+          </view>
+          <view class="profile-item_bd">
+            <view class="profile-cell">
+              <span class="">小白</span>
+              <span class="profile-calendar"><fa icon="fa fa-calendar"></fa><text style="padding-left: 6rpx">2020-03-01</text></span>
+            </view>
+            <view class="profile-cell">
+              <text>
+                <text class="profile-tag">#配送任务</text>
+                <text class="profile-tag">#光电楼</text>
+              </text>
+              <text>进行中</text>
+            </view>
+          </view>
+        </view>
+      </mp-slideview>
+    </view>
+    <view class="weui-cells">
+      <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap">
+          <mp-cell value="左滑可以删除" footer="说明文字"></mp-cell>
+      </mp-slideview>
+    </view>
+  </block>
+</view>
 </view>

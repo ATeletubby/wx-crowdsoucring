@@ -18,7 +18,7 @@
   height: 120rpx;
   /* vertical-align: top; */
   border-radius: 50%;
-  border:1px solid #ccc;
+  border:2rpx solid #ccc;
 }
 .config-icon{
   font-size: 50rpx;
@@ -52,4 +52,47 @@
   border-bottom: 4rpx solid #ccc;
   color: #000;
   z-index: 100
+}
+.notask{
+  width: 100%;
+  padding-top: 100rpx;
+  /* background-color: #fff; */
+  text-align: center;
+  color:#737C93;
+}
+.notask .notask-icon{
+  font-size: 160rpx;
+  display: block;
+}
+.btn.profile-zd{
+  background-color: #F8D34E !important;
+}
+.profile-item {
+  display: flex;
+  padding: 30rpx 30rpx;
+}
+.profile-item_hd{
+  width: 120rpx;
+  padding-top: 10rpx;
+  padding-right: 10rpx;
+  line-height: 60px;
+  text-align: center;
+}
+.profile-item_thumb{
+  width: 90rpx;
+  height: 90rpx;
+  /* vertical-align: top; */
+  border-radius: 50%;
+  border:1px solid #ccc;
+}
+.profile-item_bd{
+  flex: 1;
+}
+.profile-cell{
+  display: flex;
+  justify-content: space-between;
+}
+.profile-calendar{
+  font-size: 24rpx;
+  color:#737C93;
 }

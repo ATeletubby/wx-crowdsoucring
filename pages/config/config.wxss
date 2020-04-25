@@ -1,1 +1,37 @@
-/* pages/config/config.wxss */
+.config-block{
+  position: relative;
+  padding: 30rpx 50rpx;
+  background-color: #fff;
+  margin-bottom: 6rpx;
+}
+.config-block::after{
+  position:absolute;
+  right: 50rpx;
+  top:40rpx;
+  line-height: 16rpx;
+  content: '';
+  display: inline-block;
+  width: 16rpx;
+  height: 16rpx;
+  border-top: 2rpx solid #656565;
+  border-right: 2rpx solid #656565;
+  transform: rotate(45deg);
+  /* -webkit-transform: rotate(-130deg); */
+}
+button.feedback-button{
+  background-color: #ffffff;
+  width: 100%;
+  align-items: center;
+  padding: 0;
+  line-height: 32rpx;
+  font-weight: normal;
+  font-size: 32rpx;
+  text-align:left;
+  text-decoration:none;
+  border: none;
+  border-radius: 0;
+}
+button.feedback-button::after{
+  border: none;
+  border-radius: 0;
+}
