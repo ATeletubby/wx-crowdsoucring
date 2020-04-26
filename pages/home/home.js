@@ -1,5 +1,4 @@
-// pages/home/home.js
-const db = wx.cloud.database();
+
 Page({
   /**
    * 页面的初始数据
@@ -7,51 +6,35 @@ Page({
   data: {
     isType: false,  // 任务类型下拉菜单
     isFilter: false,
-    typeItems:[{
-      name:'配送任务',
-      value:'0',
-      status: true
-    },{
-      name: '??任务',
-      value: '1',
-      status: false
-    },{
-      name: '??任务',
-      value: '2',
-      status: false
-    },{
-      name: '??任务',
-      value: '2',
-      status: false
-    },{
-      name: '??任务',
-      value: '2',
-      status: false
-    }],
-    selectedItems: [{
-      name: '按照距离降序',
-      value:'0',
-      status: true
-    },{
-        name: '按照价格降序',
-        value: '1',
-        status: false
-    },{
-        name: '按照时间降序',
-        value: '2',
-        status: false
-      }],
-    tasks:[{
-        value : 0
-      },{
-        value: 1
-      },{
-        value: 2
-      }
-    ]
+    typeItems:[],
+    selectedItems: [],
+    tasks:[]
   },
-  query:function(){
-    db.collection("user").get().then(console.log)
+  onLoad:function(){
+    let _this = this
+    // 获取任务类型
+    wx.cloud.callFunction({
+      name: 'queryTaskType',
+    }).then(res => {
+      _this.setData({
+        typeItems: res.result.data
+      })
+    });
+   // 获取筛选类型
+
+   // 获取未被分配的任务列表
+    wx.cloud.callFunction({
+      name: 'queryUnsignedTasks',
+      success: function(res){
+        console.log(res.result.tasks);
+        _this.setData({
+          tasks: res.result.tasks
+        })
+      },
+      fall: function(e){
+        console.log(e)
+      }
+    });
   },
   openTopbarContent:function(event){
     if (event.currentTarget.id == 'type_bar'){

@@ -1,4 +1,0 @@
-<!--components/my-cpn/my-cpn.wxml-->
-<view class="title">{{title}}</view>
-<slot />
-<view class="content">我是内容</view>

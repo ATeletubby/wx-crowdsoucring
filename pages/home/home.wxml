@@ -22,7 +22,7 @@
   </view>
   <view class="topbar_content" wx:if="{{isFilter}}">
       <view class="topbar_tag">
-            <button wx:for="{{selectedItems}}" wx:key="value" bindtap="selectedItems"  label="selectedItems" value="{{item.value}}" data-id="{{item.value}}" class="{{ item.status ? '.topbar_tag_selected' : '' }}">{{item.name}}</button>
+        <button wx:for="{{selectedItems}}" wx:key="value" bindtap="selectedItems"  label="selectedItems" value="{{item.value}}" data-id="{{item.value}}" class="{{ item.status ? '.topbar_tag_selected' : '' }}">{{item.name}}</button>
       </view>
       <view class="topbar_button">
         <button type="reset">清空</button>
@@ -32,6 +32,6 @@
 </view>
 
 <view class="list">
-  <task-box wx:for="{{tasks}}" wx:key="value"></task-box>
+    <task-box wx:for="{{tasks}}" wx:for-item="item"  wx:key="unique" wx:for-index="index" task="{{item}}"></task-box>
 </view>
 

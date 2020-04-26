@@ -11,8 +11,78 @@ Page({
       round: 0,
     },
     isPublish: true,
-    pubTasks:[{}],
-    parTasks:[{}],
+    pubTasks:[{
+      't_requestor': {
+        name: '任务发布者',
+        value: '小明',
+        openid: ''
+      },
+      't_type': {
+        name: '任务类型',
+        value: '配送任务'
+      },
+      't_time': {
+        name: '发布时间',
+        value: '2020.2.20 14:00:00'
+      },
+      't_deadline': {
+        name: '截止时间',
+        value: '2020.2.10'
+      },
+      't_venue': {
+        name: '相关地点',
+        value: '光电楼、食堂'
+      },
+      't_cost': {
+        name: '任务费用',
+        value: '2'
+      },
+      't_price': {
+        name: '任务报酬',
+        value: '1'
+      },
+      't_context': {
+        name: '任务详情',
+        value: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+      },
+      't_status': 0,
+    }, {
+        't_requestor': {
+          name: '任务发布者',
+          value: '小明',
+          openid: ''
+        },
+        't_type': {
+          name: '任务类型',
+          value: '配送任务'
+        },
+        't_time': {
+          name: '发布时间',
+          value: '2020.2.20 14:00:00'
+        },
+        't_deadline': {
+          name: '截止时间',
+          value: '2020.2.10'
+        },
+        't_venue': {
+          name: '相关地点',
+          value: '光电楼、食堂'
+        },
+        't_cost': {
+          name: '任务费用',
+          value: '2'
+        },
+        't_price': {
+          name: '任务报酬',
+          value: '1'
+        },
+        't_context': {
+          name: '任务详情',
+          value: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        },
+        't_status': 2,
+      }],
+    parTasks:[],
     slideButtons: [{
       extClass: 'profile-zd',
       text: '置顶',
@@ -55,5 +125,22 @@ Page({
     this.setData({
       isPublish: false
     })
+  },
+  dealPubTask: function(e){
+    let pubTasks = this.data.pubTasks;
+    if (e.detail.index == 1){
+      pubTasks.splice(e.currentTarget.dataset.pubindex, 1);
+      this.setData({
+        pubTasks: pubTasks
+      })
+    } else {
+      let temp = pubTasks[0];
+      pubTasks[0] = pubTasks[e.currentTarget.dataset.pubindex];
+      pubTasks[e.currentTarget.dataset.pubindex] = temp;
+      this.setData({
+        pubTasks: pubTasks
+      })
+    }
+
   }
 })

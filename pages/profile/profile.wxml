@@ -29,8 +29,8 @@
     <text>你还未参与任何任务</text>
   </view>
   <block wx:if="{{isPublish}}">
-    <view class="weui-cells">
-      <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap">
+    <view class="weui-cells" wx:for="{{pubTasks}}" wx:for-index="key">
+      <mp-slideview buttons="{{slideButtons}}" bindbuttontap="dealPubTask" data-pubIndex="{{key}}">
         <view class="profile-item">
           <view class="profile-item_hd">
             <cover-image class="profile-item_thumb" mode="heightFix"
@@ -38,24 +38,22 @@
           </view>
           <view class="profile-item_bd">
             <view class="profile-cell">
-              <span class="">小白</span>
-              <span class="profile-calendar"><fa icon="fa fa-calendar"></fa><text style="padding-left: 6rpx">2020-03-01</text></span>
+              <span class="">{{item.t_requestor.value}}</span>
+              <span class="profile-calendar"><fa icon="fa fa-calendar"></fa><text style="padding-left: 6rpx">{{item.t_time.value}}</text></span>
             </view>
             <view class="profile-cell">
-              <text>
-                <text class="profile-tag">#配送任务</text>
-                <text class="profile-tag">#光电楼</text>
+              <text class="profile-tag-list">
+                <text class="profile-tag">#{{item.t_type.value}}</text>
+                <text class="profile-tag">#{{item.t_venue.value}}</text>
               </text>
-              <text>进行中</text>
+              <text class="profile-status profile-status-s" wx:if="{{ item.t_status <= 1 }}">进行中</text>
+              <text class="profile-status profile-status-c" wx:elif="{{ item.t_status == 2 }}">已完成</text>
+              <text class="profile-status profile-status-f" wx:elif="{{ item.t_status == 3 }}">已关闭</text>
             </view>
           </view>
         </view>
       </mp-slideview>
-    </view>
-    <view class="weui-cells">
-      <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap">
-          <mp-cell value="左滑可以删除" footer="说明文字"></mp-cell>
-      </mp-slideview>
+      
     </view>
   </block>
 </view>

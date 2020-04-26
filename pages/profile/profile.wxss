@@ -96,3 +96,20 @@
   font-size: 24rpx;
   color:#737C93;
 }
+.profile-tag{
+  color: #737C93;
+  padding: 10rpx 20rpx;
+  border-radius: 40rpx 40rpx 0 40rpx;
+  background-color: #f5f5f5;
+  font-size: 24rpx;
+}
+.profile-status{
+  padding: 10rpx 0rpx;
+  font-size: 26rpx;
+}
+.profile-status-s{
+  color: #3C804B;
+}
+.profile-status-c,.profile-status-f{
+  color: #737C93;
+}

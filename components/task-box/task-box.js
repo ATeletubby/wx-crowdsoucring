@@ -4,7 +4,10 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    task: {
+      type: Object,
+      value: {}
+    }
   },
 
   /**
@@ -17,6 +20,11 @@ Component({
   /**
    * 组件的方法列表
    */
+  lifetimes: {
+    ready: function () {
+      console.log(this.data.task)
+    },
+  },
   methods: {
     openTaskDetail: function(){
       wx.navigateTo({

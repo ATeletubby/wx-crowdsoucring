@@ -5,7 +5,7 @@
   </view>
   <view class="list-item_bd">
     <view class="list-cell">
-      <span class="list-cell_bd">小白</span>
+      <span class="list-cell_bd">{{task.t_requestor}}</span>
       <span class="list-cell_ft">距离你<b>250m</b></span>
     </view>
     <view class="list-cell">
