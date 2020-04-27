@@ -5,21 +5,21 @@
   </view>
   <view class="list-item_bd">
     <view class="list-cell">
-      <span class="list-cell_bd">{{task.t_requestor}}</span>
-      <span class="list-cell_ft">距离你<b>250m</b></span>
+      <span class="list-cell_bd">{{task.requestor[0].name}}</span>
+      <span class="list-cell_ft">距离你<b>{{task.t_usDistance}}m</b></span>
     </view>
     <view class="list-cell">
-      <span class="list-cell_bd list-timebegin">12:30</span>
-      <span class="list-cell_ft">任务路径<b>350m</b></span>
+      <span class="list-cell_bd list-timebegin">{{task.t_time}}</span>
+      <span class="list-cell_ft">任务路径<b>{{task.t_seDistance}}km</b></span>
     </view>
     <view class="list-cell-tag">
-        <span class="list-tag">#配送任务</span>
-        <span class="list-tag">#光电楼</span>
+        <span class="list-tag">#{{task.taskType[0].name}}</span>
+        <span class="list-tag">#{{task.sVenue[0].name}}</span>
     </view>
     <view class="list-cell">
       <span class="list-cell_bd list-icon">
-        <fa icon="fa fa-yen"><span class="list-icon-info">10</span></fa>
-        <fa icon="fa fa-eye"><span class="list-icon-info">150</span></fa>
+        <fa icon="fa fa-yen"><span class="list-icon-info">{{task.t_price}}</span></fa>
+        <fa icon="fa fa-eye"><span class="list-icon-info">{{task.t_visited}}</span></fa>
       </span>
       <span class="list-cell_ft">...</span>
     </view>

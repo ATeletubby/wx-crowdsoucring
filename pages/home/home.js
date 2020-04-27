@@ -1,4 +1,5 @@
 
+var app = getApp()
 Page({
   /**
    * 页面的初始数据
@@ -21,19 +22,25 @@ Page({
       })
     });
    // 获取筛选类型
-
+    wx.cloud.callFunction({
+      name: 'querySelectedType',
+    }).then(res => {
+      _this.setData({
+        selectedItems: res.result.data
+      })
+    });
    // 获取未被分配的任务列表
     wx.cloud.callFunction({
-      name: 'queryUnsignedTasks',
-      success: function(res){
-        console.log(res.result.tasks);
-        _this.setData({
-          tasks: res.result.tasks
-        })
-      },
-      fall: function(e){
-        console.log(e)
+      name: 'queryTaskList',
+      data: {
+        t_status: 1,
+        userLocation: app.globalData.userLocation
       }
+    }).then(res => {
+      console.log(res.result);
+      _this.setData({
+        tasks: res.result.list
+      })
     });
   },
   openTopbarContent:function(event){

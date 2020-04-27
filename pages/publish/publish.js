@@ -1,35 +1,14 @@
-// pages/category/category.js
+var app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    taskType: [{
-      name: '配送任务',
-      value: '0'
-    },{
-      name: 'xx任务',
-      value: '1'
-    },{
-      name: 'xx任务',
-      value: '2'
-    }],
+    taskType: [],
     taskTypeIndex: 0,
     dtime: "00:00",   // 截止时间
-    taskVenue:[{
-      name: '食堂',
-      value: '0'
-    },{
-      name: '教学楼',
-      value: '1'
-    },{
-      name: '宿舍',
-      value: '2'
-    },{
-      name: '无',
-      value: '3'
-    }],
+    taskVenue:[],
     sVenueIndex: 0,   //起点
     eVenueIndex: 1,   //终点
     textsize: 0,     //任务详情字数
@@ -42,7 +21,26 @@ Page({
     tipContext: '',
     buttons: [{ text: '关闭' }],
   },
+  onLoad: function(){
+    let _this = this;
+    // 获取任务类型
+    wx.cloud.callFunction({
+      name: 'queryTaskType',
+    }).then(res => {
+      _this.setData({
+        taskType: res.result.data
+      })
+    });
 
+    //获取地点
+    wx.cloud.callFunction({
+      name: 'queryVenue',
+    }).then(res => {
+      _this.setData({
+        taskVenue: res.result.data
+      })
+    });
+  },
   taskTypeChange: function (e) {
     this.setData({
       taskTypeIndex: e.detail.value
@@ -109,5 +107,37 @@ Page({
     this.setData({
       tipShow: false,
     })
+  },
+  addTask: function(){
+    let _this = this;
+    let data = this.data;
+    wx.cloud.callFunction({
+      name: 'addTask',
+      data: {
+        t_requestor: app.globalData.openid,
+        t_type: data.taskType[data.taskTypeIndex]._id,
+        t_time: JSON.stringify(Date()),
+        t_deadline: data.t_dtime,
+        t_eVenue: data.taskVenue[data.eVenueIndex]._id,
+        t_sVenue: data.taskVenue[data.sVenueIndex]._id,
+        t_price: data.taskPay,
+        t_cost: data.taskCost,
+        t_context: data.tasktext,
+        t_visited: 1,
+        t_status: 0,
+        t_worker: '',
+        t_seDistance: 1,
+        t_isNoti: data.isNoti
+      }
+    }).then(res => {
+      console.log(res);
+      _this.setData({
+        tipShow: true,
+        tipContext: "成功创建任务！"
+      })
+      // wx.switchTab({
+      //   url: '/pages/home/home'
+      // })
+    });
   }
 })

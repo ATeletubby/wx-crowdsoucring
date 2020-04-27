@@ -1,11 +1,13 @@
 <view style="">
 <view class="profile_top">
     <view class="profile_top_hd">
-      <cover-image class="profile_top_thumb" mode="heightFix"
-    src="../../assets/images/detail/avatar.jpg" />
+      <view class="profile-avatar">
+        <open-data type="userAvatarUrl" lang="zh_CN"></open-data>
+      </view>
     </view>
     <view class="profile_top_bd">
-      <text class="profile-text">小明</text>
+      <open-data type="userNickName" lang="zh_CN" class="profile-text"></open-data>
+      <!-- <text class="profile-text">未登录</text> -->
       <fa icon="fa fa-star" style="color:#FFF08D;font-size:40rpx" wx:for="{{reputation.round}}" wx:key="item"></fa>
       <fa icon="fa fa-star-half" style="color:#FFF08D;font-size:40rpx" wx:if="{{reputation.half}}"></fa>
       <view class="">

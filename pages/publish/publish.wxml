@@ -65,7 +65,7 @@
     合计：{{taskTotalPrice}} ¥
   </view>
 
-  <button class="submit">确认并支付</button>
+  <button class="submit" bindtap="addTask">确认并支付</button>
   <mp-dialog title="提示" show="{{tipShow}}" bindbuttontap="closeTipDialog" buttons="{{buttons}}" ext-class="">
   {{tipContext}}
   </mp-dialog>

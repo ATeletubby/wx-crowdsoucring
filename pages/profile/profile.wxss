@@ -113,3 +113,12 @@
 .profile-status-c,.profile-status-f{
   color: #737C93;
 }
+.profile-avatar{
+  overflow:hidden;  
+  display: block;  
+  width: 120rpx;  
+  height: 120rpx;  
+  border-radius: 50%;  
+  border: 2px solid #fff;  
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);  
+}

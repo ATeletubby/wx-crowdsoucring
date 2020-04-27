@@ -1,5 +1,9 @@
 //app.js
 App({
+  globalData: {
+    userInfo: null,
+    userLocation: null
+  },
   onLaunch: function () {
     // 云开发初始化
     wx.cloud.init({
@@ -38,6 +42,23 @@ App({
         }
       }
     })
+    // 获取openID
+    wx.cloud.callFunction({
+      name: 'getOpenid',
+    }).then(res => {
+      this.globalData.openid = res.result.openid;
+    });
+
+    // 获取用户位置
+    wx.getLocation({
+      type: 'wgs84',
+      success: res => {
+        this.globalData.userLocation = {
+          'latitude': res.latitude,
+          'longitude': res.longitude
+        }
+      }
+    })
     // wx.loadFontFace({
     //   family: 'Bitstream Vera Serif Bold',
     //   source: 'url("https://sungd.github.io/Pacifico.ttf")',
@@ -55,7 +76,4 @@ App({
         console.log('2失败')
       }});
   },
-    globalData: {
-      userInfo: null
-    }
 })
