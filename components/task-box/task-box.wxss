@@ -19,11 +19,13 @@
   flex: 1;
 }
 .list-item_thumb{
-  width: 120rpx;
-  height:120rpx;
-  /* vertical-align: top; */
-  border-radius: 50%;
-  border:1px solid #ccc;
+  overflow:hidden;  
+  display: block;  
+  width: 120rpx;  
+  height: 120rpx;  
+  border-radius: 50%;  
+  /* border: 2px solid #fff;   */
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);  
 }
 
 .list-cell {

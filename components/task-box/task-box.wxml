@@ -1,7 +1,7 @@
 <view class="list-item" bindtap="openTaskDetail">
   <view class="list-item_hd">
-    <cover-image class="list-item_thumb" mode="heightFix"
-    src="../../assets/images/detail/avatar.jpg" />
+    <image class="list-item_thumb" mode="heightFix"
+    src="{{task.requestor[0].avatarUrl}}" />
   </view>
   <view class="list-item_bd">
     <view class="list-cell">

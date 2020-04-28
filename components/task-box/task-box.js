@@ -22,14 +22,13 @@ Component({
    */
   lifetimes: {
     ready: function () {
-      console.log(this.data.task)
     },
   },
   methods: {
     openTaskDetail: function(){
       wx.navigateTo({
         title: 'go',
-        url: '/pages/detail/detail'
+        url: '/pages/detail/detail?_id='+ this.data.task._id
       })
     }
   }

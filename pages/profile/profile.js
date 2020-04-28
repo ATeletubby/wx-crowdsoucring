@@ -1,12 +1,15 @@
 // pages/profile/profile.js
+var app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    userInfo: null,
+    userAppInfo: null,
     reputation: {
-      value: 4.5,
+      value: 0,
       half: false,
       round: 0,
     },
@@ -99,7 +102,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    this.setData({
+      userInfo: app.globalData.userInfo,
+      userAppInfo: app.globalData.userAppInfo
+    });
     // 得到用户的reputation
     this.setData({
       'reputation.round' : parseInt(this.data.reputation.value)
@@ -108,6 +114,22 @@ Page({
       this.setData({
         'reputation.half': true
       });
+    }
+  },
+  onShow: function (){
+    // console.log(app.globalData.userAppInfo, this.data.reputation.value)]
+    if (app.globalData.userAppInfo || app.globalData.userInfo){
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        userAppInfo: app.globalData.userAppInfo,
+        'reputation.value': app.globalData.userAppInfo.reputation,
+        'reputation.round': parseInt(app.globalData.userAppInfo.reputation)
+      });
+      if (this.data.reputation.value - this.data.reputation.round >= 0.5) {
+        this.setData({
+          'reputation.half': true
+        });
+      }
     }
   },
   openConfig: function(){
@@ -142,5 +164,11 @@ Page({
       })
     }
 
+  },
+  authorizeUser: function(){
+    wx.navigateTo({
+      title: 'goLogin',
+      url: '/pages/login/login'
+    })
   }
 })

@@ -10,14 +10,26 @@ exports.main = async (event, context) => {
 
   const wxContext = cloud.getWXContext()
   const tasks = []  //所有任务集合
-  return  db.collection('task').aggregate()
-    .match({
-      t_status: _.lte(event.t_status)
-    })
+  let matchRule = {
+    t_status: _.lte(event.t_status)
+  };
+  // 如果客户端传了t_type,筛选t_type字段
+  if (event.t_type){
+    matchRule.t_type = _.in(event.t_type)
+  }
+  let sortWay = 't_time';
+  if (event.sortWay == 0){
+    sortWay = 't_seDistance';
+  } else if (event.sortWay == 1){
+    sortWay = 't_price';
+  }
+
+  return db.collection('task').aggregate()
+    .match(matchRule)
     .lookup({
       from: 'user',
       localField:'t_requestor',
-      foreignField:'_id',
+      foreignField:'openid',
       as: 'requestor',
     })
     .lookup({
@@ -38,22 +50,25 @@ exports.main = async (event, context) => {
       foreignField: '_id',
       as: 'eVenue',
     })
+    .sort({
+      [sortWay]: -1 
+    })
     .end()
     .then(res => {
       console.log(res.list);
       if (res.list.length > 0) {
         let list = res.list;
         for (let i = 0; i < list.length; i++) {
-          // 时间格式
-          // list[i].t_time = list[i].t_time.getFullYear() + '-' + list[i].t_time.getMonth() + '-' + list[i].t_time.getDate() + ' ' + list[i].t_time.getHours() + ':' + list[i].t_time.getMinutes();
-          
+          list[i].t_time = formatDate(list[i].t_time)
           // 计算起点到终点的距离(后期写在发布任务中)
-          let slo = list[i].sVenue[0].location.coordinates;
-          let elo = list[i].eVenue[0].location.coordinates;
-          list[i].t_seDistance = calDistance(slo[1], slo[0], elo[1], elo[0]);
+          // let slo = list[i].sVenue[0].location.coordinates;
+          // let elo = list[i].eVenue[0].location.coordinates;
+          // list[i].t_seDistance = calDistance(slo[1], slo[0], elo[1], elo[0]);
+          
           // 计算用户到起点的距离
           if (event.userLocation){
-            console.log(event.userLocation)
+            let slo = list[i].sVenue[0].location.coordinates;
+            list[i].t_usDistance = calDistance(slo[1], slo[0], event.userLocation.latitude, event.userLocation.longitude)
           } else {
             list[i].t_usDistance = 'xxx';
           }     
@@ -64,7 +79,19 @@ exports.main = async (event, context) => {
     .catch(err => console.error(err))
 }
 
-function calDistance(la1,lo1,la2,lo2){
+var formatDate = function (date) {
+  var date = new Date(date);  
+  var y = date.getFullYear();
+  var m = date.getMonth() + 1;
+  m = m < 10 ? ('0' + m) : m;
+  var d = date.getDate();
+  d = d < 10 ? ('0' + d) : d;
+  var h = date.getHours();
+  var minute = date.getMinutes();
+  minute = minute < 10 ? ('0' + minute) : minute;
+  return y + '-' + m + '-' + d + ' ' + h + ':' + minute;
+};
+var calDistance = function(la1, lo1, la2, lo2) {
   let La1 = la1 * Math.PI / 180.0;
   let La2 = la2 * Math.PI / 180.0;
   let La3 = La1 - La2;

@@ -1,0 +1,6 @@
+<!--pages/login/login.wxml-->
+<view class="login">
+  <view>校园众包申请获得以下权限：</view>
+  <view class="login-text">获得你的公开信息（昵称、头像等）</view>
+  <button open-type="getUserInfo" class="login_btn" type="primary" bindgetuserinfo="getUserInfo">微信用户登录</button>
+</view>

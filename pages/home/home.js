@@ -9,7 +9,8 @@ Page({
     isFilter: false,
     typeItems:[],
     selectedItems: [],
-    tasks:[]
+    tasks:[],
+    loading: true
   },
   onLoad:function(){
     let _this = this
@@ -30,6 +31,23 @@ Page({
       })
     });
    // 获取未被分配的任务列表
+    // wx.cloud.callFunction({
+    //   name: 'queryTaskList',
+    //   data: {
+    //     t_status: 1,
+    //     userLocation: app.globalData.userLocation
+    //   }
+    // }).then(res => {
+    //   console.log(res.result);
+    //   _this.setData({
+    //     tasks: res.result.list
+    //   })
+    // });
+  },
+  onShow:function(){
+    let _this = this
+
+    // 获取未被分配的任务列表
     wx.cloud.callFunction({
       name: 'queryTaskList',
       data: {
@@ -39,6 +57,7 @@ Page({
     }).then(res => {
       console.log(res.result);
       _this.setData({
+        loading: false,
         tasks: res.result.list
       })
     });
@@ -73,7 +92,48 @@ Page({
     this.setData({
       [key]: !this.data.typeItems[id].status
     });
-  }
+  },
+  // 任务类型选择后
+  refreshTaskList: function(){
+    let _this = this;
+    // 选中的任务类型，将id传给云函数
+    let taskType = [];
+    for (let i = 0; i < this.data.typeItems.length; i++){
+      if (this.data.typeItems[i].status){
+        taskType.push(this.data.typeItems[i]._id);
+      }
+    }
+    // 选中的排序类型，将value传给云函数
+    let sortWay = 0;
+    for (let i = 0; i < this.data.selectedItems.length; i++) {
+      if (this.data.selectedItems[i].status) {
+        sortWay = this.data.selectedItems[i].value
+      }
+    }
+
+    this.setData({
+      tasks: [],
+      isType: false,
+      isFilter: false,
+      loading: true,
+    });
+    wx.cloud.callFunction({
+      name: 'queryTaskList',
+      data: {
+        t_status: 1,
+        userLocation: app.globalData.userLocation,
+        t_type: taskType,
+        sortWay: sortWay
+      }
+    }).then(res => {
+      console.log(res.result);
+      _this.setData({
+        loading: false,
+        tasks: res.result.list
+      })
+    });
+  },
+
   // openTaskDetail: function () {
   //   wx.navigateTo({
   //     title: 'go',

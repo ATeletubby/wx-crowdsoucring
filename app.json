@@ -4,7 +4,8 @@
     "pages/publish/publish",
     "pages/profile/profile",
     "pages/detail/detail",
-    "pages/config/config"
+    "pages/config/config",
+    "pages/login/login"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -12,8 +13,8 @@
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#F8D34E"
   },
-  "permission":{
-    "scope.userLocation":{
+  "permission": {
+    "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
   },
@@ -41,7 +42,8 @@
   },
   "usingComponents": {
     "fa": "components/includes/fa/index",
-    "mp-dialog": "components/weui-miniprogram/dialog/dialog"
+    "mp-dialog": "components/weui-miniprogram/dialog/dialog",
+    "mp-loading": "components/weui-miniprogram/loading/loading"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

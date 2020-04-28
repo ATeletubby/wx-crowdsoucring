@@ -10,21 +10,22 @@ exports.main = async (event, context) => {
       data: {
         t_requestor: event.t_requestor,
         t_type: event.t_type,
-        t_time: new Date(),
+        t_time: Date(),
         t_deadline: event.t_deadline,
         t_eVenue: event.t_eVenue,
         t_sVenue: event.t_sVenue,
-        t_price: event.t_price,
-        t_cost: event.t_cost,
+        t_price: parseInt(event.t_price),
+        t_cost: parseInt(event.t_cost),
         t_isNoti: event.t_isNoti,
         t_context: event.t_context,
         t_visited: 1,
         t_status: 0,
         t_worker: '',
-        t_seDistance: 1,
+        t_seDistance: parseInt(event.t_seDistance),
       }
     })
   }catch (e) {
     console.error(e)
   }
 }
+

@@ -5,16 +5,24 @@
         <open-data type="userAvatarUrl" lang="zh_CN"></open-data>
       </view>
     </view>
-    <view class="profile_top_bd">
+    <view class="profile_top_bd" wx:if="{{ userInfo }}">
       <open-data type="userNickName" lang="zh_CN" class="profile-text"></open-data>
       <!-- <text class="profile-text">未登录</text> -->
       <fa icon="fa fa-star" style="color:#FFF08D;font-size:40rpx" wx:for="{{reputation.round}}" wx:key="item"></fa>
       <fa icon="fa fa-star-half" style="color:#FFF08D;font-size:40rpx" wx:if="{{reputation.half}}"></fa>
       <view class="">
-        <text class="profile-text profile-data">发布任务：12</text>
-        <text class="profile-text profile-data">参与任务：12</text>  
+        <text class="profile-text profile-data">发布任务：{{userAppInfo.pub_num}}</text>
+        <text class="profile-text profile-data">参与任务：{{userAppInfo.par_num}}</text>  
       </view>
     </view>
+    <view class="profile_top_bd" wx:elif="{{ !userInfo }}">
+      <text class="profile-text" bindtap="authorizeUser">点击授权</text>
+      <view class="">
+        <text class="profile-text profile-data">发布任务：0</text>
+        <text class="profile-text profile-data">参与任务：0</text>  
+    </view>
+    </view>
+    
     <fa icon="fa fa-cog" class="config-icon" bindtap="openConfig"></fa>
 </view>
 <view class="profile_navbar">

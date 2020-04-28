@@ -1,0 +1,16 @@
+/* pages/login/login.wxss */
+.login {
+  padding: 60rpx 10rpx;
+  text-align: center;
+}
+.login-text{
+  font-size: 28rpx;
+  color: #666;
+  padding-top: 30rpx;
+}
+button.login_btn{
+  margin-top: 100rpx;
+  font-weight: normal;
+  width: 90%;
+  color: #fff;
+}

@@ -17,7 +17,7 @@
       </view>
       <view class="topbar_button">
         <button type="reset">清空</button>
-        <button class="submit">确认</button>
+        <button class="submit" bindtap="refreshTaskList">确认</button>
       </view>
   </view>
   <view class="topbar_content" wx:if="{{isFilter}}">
@@ -26,12 +26,13 @@
       </view>
       <view class="topbar_button">
         <button type="reset">清空</button>
-        <button class="submit">确认</button>
+        <button class="submit" bindtap="refreshTaskList">确认</button>
       </view>
   </view>
 </view>
 
 <view class="list">
+    <mp-loading type="circle" wx:if="{{loading}}"></mp-loading>
     <task-box wx:for="{{tasks}}" wx:for-item="item"  wx:key="unique" wx:for-index="index" task="{{item}}"></task-box>
 </view>
 

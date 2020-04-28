@@ -109,8 +109,22 @@ Page({
     })
   },
   addTask: function(){
+    //没有登录的话跳转登录(之后写到主函数)
+    if (!app.globalData.userInfo){
+      wx.navigateTo({
+        title: 'goLogin',
+        url: '/pages/login/login'
+      })
+      return;
+    }
+
+
     let _this = this;
     let data = this.data;
+    // 计算起终点距离
+    let slo = data.taskVenue[data.sVenueIndex].location.coordinates;
+    let elo = data.taskVenue[data.eVenueIndex].location.coordinates;
+    let t_seDistance = this.calDistance(slo[1], slo[0], elo[1], elo[0]);
     wx.cloud.callFunction({
       name: 'addTask',
       data: {
@@ -126,7 +140,7 @@ Page({
         t_visited: 1,
         t_status: 0,
         t_worker: '',
-        t_seDistance: 1,
+        t_seDistance: t_seDistance,
         t_isNoti: data.isNoti
       }
     }).then(res => {
@@ -139,5 +153,16 @@ Page({
       //   url: '/pages/home/home'
       // })
     });
+  },
+  calDistance: function(la1, lo1, la2, lo2) {
+    let La1 = la1 * Math.PI / 180.0;
+    let La2 = la2 * Math.PI / 180.0;
+    let La3 = La1 - La2;
+    let Lb3 = lo1 * Math.PI / 180.0 - lo2 * Math.PI / 180.0;
+    let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(La3 / 2), 2) + Math.cos(La1) * Math.cos(La2) * Math.pow(Math.sin(Lb3 / 2), 2)));
+    s = s * 6378.137;
+    s = Math.round(s * 10000) / 10000;
+    s = Math.round(s);
+    return s
   }
 })
