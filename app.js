@@ -5,6 +5,7 @@ App({
     userLocation: null
   },
   onLaunch: function () {
+    let _this = this;
     // 云开发初始化
     wx.cloud.init({
       env:"wx-debater-ccdoy",
@@ -19,7 +20,13 @@ App({
     // 登录
     wx.login({
       success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        // 查找用户是否新用户
+        wx.cloud.callFunction({
+          name: 'queryUser',
+        }).then(res => {
+          if (res.result && res.result.length > 0)
+            _this.globalData.userAppInfo = res.result[0];
+        })
       }
     })
     // 获取用户信息

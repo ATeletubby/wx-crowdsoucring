@@ -1,4 +1,5 @@
 var app = getApp()
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -12,17 +13,25 @@ Page({
     sVenueIndex: 0,   //起点
     eVenueIndex: 1,   //终点
     textsize: 0,     //任务详情字数
-    tasktext: '',
+    taskText: '',
     taskCost: 0,      //任务成本
     taskPay: 0,       //任务报酬
     taskTotalPrice: 0,
     isNoti: false,
     tipShow: false,
     tipContext: '',
+    paytipShow: false,
+    paybuttons: [{ text: '取消' }, { text: '确认' }],
     buttons: [{ text: '关闭' }],
   },
   onLoad: function(){
     let _this = this;
+    // 得到当前时间
+    let dtime = util.currentTime();
+    _this.setData({
+      dtime: dtime
+    })
+
     // 获取任务类型
     wx.cloud.callFunction({
       name: 'queryTaskType',
@@ -64,7 +73,7 @@ Page({
   },
   taskContextChange:function(e){
     this.setData({
-      tasktext: e.detail.value,
+      taskText: e.detail.value,
       textsize: e.detail.value.length
     })
   },
@@ -80,7 +89,7 @@ Page({
         taskPay: taskPay,
       })
     }
-    let taskTotalPrice = parseInt(this.data.taskCost) + parseInt(this.data.taskPay);
+    let taskTotalPrice = Math.round((parseFloat(this.data.taskCost) + parseFloat(this.data.taskPay)) * 1000) / 1000;   
     this.setData({
       taskTotalPrice: taskTotalPrice,
     })
@@ -108,61 +117,75 @@ Page({
       tipShow: false,
     })
   },
-  addTask: function(){
-    //没有登录的话跳转登录(之后写到主函数)
-    if (!app.globalData.userInfo){
+
+
+  checkPay: function(){
+    //检验登录(之后写到主函数)
+    if (!app.globalData.userAppInfo) {
       wx.navigateTo({
         title: 'goLogin',
         url: '/pages/login/login'
       })
       return;
     }
+    // 检验非法字段
 
+    // 检验众包币
+    if (app.globalData.userAppInfo.crowdCoin < this.data.taskTotalPrice) {
+      this.setData({
+        tipShow: true,
+        tipContext: "众包币余额不够！还剩 " + app.globalData.userAppInfo.crowdCoin
+      })
+      return;
+    }
 
+    this.setData({
+      paytipShow: true,
+      paytipContext: "发布任务需支付众包币 " + this.data.taskTotalPrice + " ，确认支付？"
+    })
+   
+  },
+  addTask: function(e){
+    if (e.detail.index == 0) {
+      this.setData({
+        paytipShow: false,
+      })
+      return;
+    }
+    
     let _this = this;
     let data = this.data;
     // 计算起终点距离
     let slo = data.taskVenue[data.sVenueIndex].location.coordinates;
     let elo = data.taskVenue[data.eVenueIndex].location.coordinates;
-    let t_seDistance = this.calDistance(slo[1], slo[0], elo[1], elo[0]);
+    let t_seDistance = util.calDistance(slo[1], slo[0], elo[1], elo[0]);
+    console.log(data.dtime);
     wx.cloud.callFunction({
       name: 'addTask',
       data: {
         t_requestor: app.globalData.openid,
         t_type: data.taskType[data.taskTypeIndex]._id,
-        t_time: JSON.stringify(Date()),
-        t_deadline: data.t_dtime,
+        t_time: new Date().getTime(),
+        t_deadline: data.dtime,
         t_eVenue: data.taskVenue[data.eVenueIndex]._id,
         t_sVenue: data.taskVenue[data.sVenueIndex]._id,
         t_price: data.taskPay,
         t_cost: data.taskCost,
-        t_context: data.tasktext,
-        t_visited: 1,
-        t_status: 0,
-        t_worker: '',
+        t_context: data.taskText,
         t_seDistance: t_seDistance,
-        t_isNoti: data.isNoti
+        t_isNoti: data.isNoti,
+        t_taskTotalPrice: data.taskTotalPrice
       }
     }).then(res => {
       console.log(res);
       _this.setData({
         tipShow: true,
+        paytipShow: false,
         tipContext: "成功创建任务！"
       })
       // wx.switchTab({
-      //   url: '/pages/home/home'
+      //   url: '/pages/profile/profile'
       // })
     });
   },
-  calDistance: function(la1, lo1, la2, lo2) {
-    let La1 = la1 * Math.PI / 180.0;
-    let La2 = la2 * Math.PI / 180.0;
-    let La3 = La1 - La2;
-    let Lb3 = lo1 * Math.PI / 180.0 - lo2 * Math.PI / 180.0;
-    let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(La3 / 2), 2) + Math.cos(La1) * Math.cos(La2) * Math.pow(Math.sin(Lb3 / 2), 2)));
-    s = s * 6378.137;
-    s = Math.round(s * 10000) / 10000;
-    s = Math.round(s);
-    return s
-  }
 })

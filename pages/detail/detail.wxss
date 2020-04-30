@@ -17,12 +17,14 @@
   line-height: 60px;
   text-align: center;
 }
-.detail_top_thumb{
-  width: 120rpx;
-  height: 120rpx;
-  /* vertical-align: top; */
-  border-radius: 50%;
-  border:1px solid #ccc;
+.detail-item_thumb{
+  overflow:hidden;  
+  display: block;  
+  width: 120rpx;  
+  height: 120rpx;  
+  border-radius: 50%;  
+  /* border: 2px solid #fff;   */
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);  
 }
 .detail_top_content{
   display: flex;
@@ -46,8 +48,13 @@
   font-size: 24rpx;
 }
 .detail-context{
-  /* background-color: #f5f5f5; */
-  overflow: hidden;
+  padding: 20rpx;
+  background-color: #f5f5f5;
+  border-radius: 10rpx;
+  overflow: auto;
+  height: 200rpx;
+  word-wrap: break-word;
+  word-break: normal;
 }
 .detail-btn{
   width: 100%;

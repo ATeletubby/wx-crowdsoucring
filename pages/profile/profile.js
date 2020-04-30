@@ -1,5 +1,6 @@
 // pages/profile/profile.js
 var app = getApp()
+const util = require('../../utils/util.js') 
 Page({
 
   /**
@@ -14,77 +15,7 @@ Page({
       round: 0,
     },
     isPublish: true,
-    pubTasks:[{
-      't_requestor': {
-        name: '任务发布者',
-        value: '小明',
-        openid: ''
-      },
-      't_type': {
-        name: '任务类型',
-        value: '配送任务'
-      },
-      't_time': {
-        name: '发布时间',
-        value: '2020.2.20 14:00:00'
-      },
-      't_deadline': {
-        name: '截止时间',
-        value: '2020.2.10'
-      },
-      't_venue': {
-        name: '相关地点',
-        value: '光电楼、食堂'
-      },
-      't_cost': {
-        name: '任务费用',
-        value: '2'
-      },
-      't_price': {
-        name: '任务报酬',
-        value: '1'
-      },
-      't_context': {
-        name: '任务详情',
-        value: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-      },
-      't_status': 0,
-    }, {
-        't_requestor': {
-          name: '任务发布者',
-          value: '小明',
-          openid: ''
-        },
-        't_type': {
-          name: '任务类型',
-          value: '配送任务'
-        },
-        't_time': {
-          name: '发布时间',
-          value: '2020.2.20 14:00:00'
-        },
-        't_deadline': {
-          name: '截止时间',
-          value: '2020.2.10'
-        },
-        't_venue': {
-          name: '相关地点',
-          value: '光电楼、食堂'
-        },
-        't_cost': {
-          name: '任务费用',
-          value: '2'
-        },
-        't_price': {
-          name: '任务报酬',
-          value: '1'
-        },
-        't_context': {
-          name: '任务详情',
-          value: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-        },
-        't_status': 2,
-      }],
+    pubTasks:[],
     parTasks:[],
     slideButtons: [{
       extClass: 'profile-zd',
@@ -96,12 +27,16 @@ Page({
       extClass: 'test',
       src: '/page/weui/cell/icon_del.svg', // icon的路径
     }],
+    loading: true,
+    page: 0,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let _this = this
+    console.log(app.globalData.userAppInfo)
     this.setData({
       userInfo: app.globalData.userInfo,
       userAppInfo: app.globalData.userAppInfo
@@ -115,9 +50,37 @@ Page({
         'reputation.half': true
       });
     }
+
+    // 得到用户发布任务
+    if (app.globalData.userAppInfo){
+      wx.cloud.callFunction({
+        name: 'queryTaskList',
+        data: {
+          t_status: 3,
+          openid: app.globalData.userAppInfo.openid,
+          page: _this.data.page
+        }
+      }).then(res => {
+        console.log(res.result);
+        // 处理返回的数据
+        let list = res.result.list;
+        for (let i = 0; i < list.length; i++) {
+          list[i].t_time = util.transformTime(list[i].t_time)
+        }
+        _this.setData({
+          pubTasks: list
+        })
+      });
+    }
+    this.setData({
+      loading: false
+    })
   },
   onShow: function (){
-    // console.log(app.globalData.userAppInfo, this.data.reputation.value)]
+    let _this = this
+    this.setData({
+      loading: true
+    })
     if (app.globalData.userAppInfo || app.globalData.userInfo){
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -130,7 +93,32 @@ Page({
           'reputation.half': true
         });
       }
+
+      // 得到用户发布任务
+      if (app.globalData.userAppInfo) {
+        wx.cloud.callFunction({
+          name: 'queryTaskList',
+          data: {
+            t_status: 3,
+            t_requestor: app.globalData.userAppInfo.openid,
+            page: _this.data.page
+          }
+        }).then(res => {
+          console.log(res.result);
+          // 处理返回的数据
+          let list = res.result.list;
+          for (let i = 0; i < list.length; i++) {
+            list[i].t_time = util.transformTime(list[i].t_time)
+          }
+          _this.setData({
+            pubTasks: list
+          })
+        });
+      }
     }
+    this.setData({
+      loading: false
+    })
   },
   openConfig: function(){
     wx.navigateTo({
@@ -139,14 +127,68 @@ Page({
     })
   },
   changePublish: function(){
+    let _this = this
     this.setData({
-      isPublish: true
+      isPublish: true,
+      pubTasks: []
     })
+    // 得到用户发布任务
+    if (app.globalData.userAppInfo) {
+      this.setData({
+        loading: true
+      })
+      wx.cloud.callFunction({
+        name: 'queryTaskList',
+        data: {
+          t_status: 3,
+          t_requestor: app.globalData.userAppInfo.openid,
+          page: _this.data.page
+        }
+      }).then(res => {
+        console.log(res.result);
+        // 处理返回的数据
+        let list = res.result.list;
+        for (let i = 0; i < list.length; i++) {
+          list[i].t_time = util.transformTime(list[i].t_time)
+        }
+        _this.setData({
+          pubTasks: list,
+          loading: false
+        })
+      });
+    }
   },
   changeParticipate: function () {
+    let _this = this
     this.setData({
-      isPublish: false
+      isPublish: false,
+      parTasks:[]
     })
+    // 得到用户参与任务
+    if (app.globalData.userAppInfo) {
+      this.setData({
+        loading: true
+      })
+      wx.cloud.callFunction({
+        name: 'queryTaskList',
+        data: {
+          t_status: 3,
+          t_worker: app.globalData.userAppInfo.openid,
+          page: _this.data.page
+        }
+      }).then(res => {
+        console.log(res.result);
+        // 处理返回的数据
+        let list = res.result.list;
+        for (let i = 0; i < list.length; i++) {
+          list[i].t_time = util.transformTime(list[i].t_time)
+        }
+        _this.setData({
+          parTasks: list,
+          loading: false
+        })
+      });
+    }
   },
   dealPubTask: function(e){
     let pubTasks = this.data.pubTasks;
@@ -170,5 +212,11 @@ Page({
       title: 'goLogin',
       url: '/pages/login/login'
     })
+  },
+  openTaskDetail: function(e){
+      wx.navigateTo({
+        title: 'go',
+        url: '/pages/detail/detail?_id=' + e.currentTarget.dataset.tid
+      })
   }
 })

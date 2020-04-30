@@ -22,7 +22,8 @@ exports.main = async (event, context) => {
             par_num: 0,
             pub_num: 0,
             reputation: 0,
-            avatarUrl: userInfo.avatarUrl
+            avatarUrl: userInfo.avatarUrl,
+            crowdCoin: 100,
           }
         })
       } else {

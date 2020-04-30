@@ -4,7 +4,7 @@
   padding: 40rpx 30rpx;
 }
 .profile_top_hd{
-  width: 120rpx;
+  width: 140rpx;
   padding-top: 10rpx;
   padding-right: 32rpx;
   line-height: 60px;

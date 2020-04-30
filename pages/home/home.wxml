@@ -1,5 +1,5 @@
 <view class="topbar">
-  <mp-searchbar ext-class="top-searchbar" bindselectresult="selectResult" search="{{search}}"></mp-searchbar>
+  <mp-searchbar ext-class="top-searchbar" bindblur="selectResult" search="{{search}}" bindinput="searchbarInput"></mp-searchbar>
   <view class="navbar"> 
     <view id="type_bar" class="navbar_item {{isType ? 'navbar_item_selected' : ''}}" bindtap="openTopbarContent">
       任务类型
@@ -16,7 +16,7 @@
          <button wx:for="{{typeItems}}" wx:key="value" bindtap="typeItems" label="selectedItems" value="{{item.value}}" data-id="{{item.value}}" class="{{ item.status ? '.topbar_tag_selected' : '' }}">{{item.name}}</button>
       </view>
       <view class="topbar_button">
-        <button type="reset">清空</button>
+        <button type="reset" id="type_bar" bindtap="openTopbarContent">关闭</button>
         <button class="submit" bindtap="refreshTaskList">确认</button>
       </view>
   </view>
@@ -25,7 +25,7 @@
         <button wx:for="{{selectedItems}}" wx:key="value" bindtap="selectedItems"  label="selectedItems" value="{{item.value}}" data-id="{{item.value}}" class="{{ item.status ? '.topbar_tag_selected' : '' }}">{{item.name}}</button>
       </view>
       <view class="topbar_button">
-        <button type="reset">清空</button>
+        <button type="reset" id="filter_bar" bindtap="openTopbarContent">关闭</button>
         <button class="submit" bindtap="refreshTaskList">确认</button>
       </view>
   </view>
@@ -34,5 +34,6 @@
 <view class="list">
     <mp-loading type="circle" wx:if="{{loading}}"></mp-loading>
     <task-box wx:for="{{tasks}}" wx:for-item="item"  wx:key="unique" wx:for-index="index" task="{{item}}"></task-box>
+    <mp-loading type="circle" wx:if="{{sloading}}"></mp-loading>
 </view>
 

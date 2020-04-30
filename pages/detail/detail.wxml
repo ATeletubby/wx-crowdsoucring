@@ -1,16 +1,31 @@
 <!--任务详情页-->
-<view class="detail">
+<mp-loading type="circle" wx:if="{{loading}}"></mp-loading>
+<view class="detail" wx:if="{{!loading}}">
   <view class="detail_block">
     <text class="detail_title">任务发布者</text>
     <view class="detail_top_content">
       <view class="detail_top_hd">
-        <cover-image class="detail_top_thumb" mode="heightFix"
-      src="../../assets/images/detail/avatar.jpg" />
+        <image class="detail-item_thumb" mode="heightFix" src="{{task.requestor[0].avatarUrl}}" />
       </view>
       <view class="detail_top_bd">
-        <text class="detail-text">小明</text>
-        <text class="detail-text detail-time">一小时前发布</text>
-        <text class="detail-text detail-time">浏览数：</text>
+        <text class="detail-text">{{task.requestor[0].name}}</text>
+        <text class="detail-text detail-time">{{task.t_timeDiff}}前发布</text>
+        <text class="detail-text detail-time">浏览数：{{task.t_visited}}</text>
+        <!-- <text class="detail-text detail-phone">111111</text> -->
+      </view>
+    </view>
+  </view>
+  <view class="detail_block" wx:if="{{task.t_status == 1 || task.t_status == 2 }}">
+    <text class="detail_title">任务接收者</text>
+    <view class="detail_top_content">
+      <view class="detail_top_hd">
+        <image class="detail-item_thumb" mode="heightFix" src="{{task.worker[0].avatarUrl}}" />
+      </view>
+      <view class="detail_top_bd">
+        <text class="detail-text">{{task.worker[0].name}}</text>
+        <fa icon="fa fa-star" style="color:#FFF08D;font-size:32rpx" wx:for="{{reputation.round}}" wx:key="item"></fa>
+        <fa icon="fa fa-star-half" style="color:#FFF08D;font-size:32rpx" wx:if="{{reputation.half}}"></fa>
+        <text class="detail-text detail-time">声誉：{{task.worker[0].reputation}} </text>
         <!-- <text class="detail-text detail-phone">111111</text> -->
       </view>
     </view>
@@ -20,41 +35,55 @@
     <view class="detail_top_content flex-column">
       <view class="detail-content flex-row flex-cell">
         <text class="flex-row flex-cell detail-label">任务类型</text>
-        <text class="flex-row flex-cell">{{task.t_type.value}}</text>
+        <text class="flex-row flex-cell">{{task.taskType[0].name}}</text>
       </view>
       <view class="detail-content flex-row flex-cell">
         <text class="flex-row flex-cell detail-label">发布时间</text>
-        <text class="flex-row flex-cell">{{task.t_time.value}}</text>
+        <text class="flex-row flex-cell">{{task.t_time}}</text>
       </view>
       <view class="detail-content flex-row flex-cell">
         <text class="flex-row flex-cell detail-label">截止时间</text>
-        <text class="flex-row flex-cell">{{task.t_deadline.value}}</text>
+        <text class="flex-row flex-cell">{{task.t_deadline}}</text>
       </view>
       <view class="detail-content flex-row flex-cell">
         <text class="flex-row flex-cell detail-label">相关地点</text>
-        <view class="flex-row flex-cell">{{task.t_venue.value}}<button class="map" size="mini" bindtap="showMap">地图查看</button></view>        
+        <view class="flex-row flex-cell">{{task.sVenue[0].name}}、{{task.eVenue[0].name}}
+          <button class="map" size="mini" bindtap="showMap">地图查看</button>
+        </view>
       </view>
       <view class="detail-content flex-row flex-cell">
         <text class="flex-row flex-cell detail-label">任务费用</text>
-        <text class="flex-row flex-cell">{{task.t_cost.value}}</text>
+        <text class="flex-row flex-cell">¥ {{task.t_cost}} </text>
       </view>
       <view class="detail-content flex-row flex-cell">
         <text class="flex-row flex-cell detail-label">任务报酬</text>
-        <text class="flex-row flex-cell">{{task.t_price.value}}</text>
+        <text class="flex-row flex-cell">¥ {{task.t_price}} </text>
       </view>
       <view class="detail-content flex-row flex-cell">
         <text class="flex-row flex-cell detail-label">备注内容</text>
-        <text class="flex-row flex-cell detail-context">{{task.t_context.value}}</text>
+        <text class="flex-cell detail-context">{{task.t_context}}</text>
       </view>
     </view>
-    <button class="submit detail-btn" wx:if="{{task.t_status == 0}}" bindtap="showDialog">接受任务</button>
-    <button class="detail-btn" wx:elif="{{task.t_status == 1}}">任务已接受</button>
+    <button class="submit detail-btn" wx:if="{{task.t_status == 0 && userAppInfo.openid != task.t_requestor}}" bindtap="showDialog">接受任务</button>
+    <button class="submit detail-btn" wx:elif="{{task.t_status == 0 && userAppInfo.openid == task.t_requestor}}" bindtap="closeTask">关闭任务</button>
+    <button class="detail-btn" wx:elif="{{task.t_status == 1 && userAppInfo.openid != task.t_requestor}}">任务已接受</button>
+    <button class="submit detail-btn" wx:elif="{{task.t_status == 1 && userAppInfo.openid == task.t_requestor}}" bindtap="completeTask">完成任务</button>
+    <button class="detail-btn" wx:elif="{{task.t_status == 2}}">任务已完成</button>
+    <button class="detail-btn" wx:elif="{{task.t_status == 3}}">任务已关闭</button>
   </view>
   <mp-dialog title="" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
-      <view>确认接受任务？未完成任务会影响声誉</view>
+    <view>{{dialogContent}}</view>
   </mp-dialog>
   <mp-dialog title="" show="{{mapShow}}" bindbuttontap="tapDialogMapButton" buttons="{{mapbuttons}}" ext-class="map-dialog">
-    <map id="map" longitude="113.324520" latitude="23.099994" scale="14" controls="{{controls}}" bindcontroltap="controltap" markers="{{map.markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width: 100%; height: 300px;"></map>
+    <map id="map" longitude="{{mapMarkers[0].longitude}}" latitude="{{mapMarkers[0].latitude}}" scale="14" controls="{{controls}}" bindcontroltap="controltap" markers="{{mapMarkers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange"
+      show-location style="width: 100%; height: 300px;"></map>
   </mp-dialog>
-
+  <mp-dialog title="评价{{task.worker[0].name}}的工作" show="{{rateShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
+    <view>
+      <block wx:for="{{markStars}}" wx:key="unique" wx:for-index="idx" wx:for-item="item">
+        <fa icon="fa fa-star" style="color:#EED31E;font-size:60rpx" wx:if="{{item}}" data-starid="{{idx}}" bindtap="changeMark"></fa>
+        <fa icon="fa fa-star-o" style="color:#737C93;font-size:60rpx" wx:elif="{{!item}}" data-starid="{{idx}}" bindtap="changeMark"></fa>
+      </block>  
+    </view>
+  </mp-dialog>
 </view>

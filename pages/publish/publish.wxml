@@ -34,7 +34,7 @@
       <text class="pub-number">4</text><text class="pub-title">任务详情</text></view>
     <view class="weui-cell">
       <view class="weui-cell__bd">
-        <textarea class="weui-textarea" maxlength="200" placeholder="描述任务" style="height: 5.3em" value="{{tasktext}}" bindinput="taskContextChange" />
+        <textarea class="weui-textarea" maxlength="200" placeholder="描述任务" style="height: 5.3em" value="{{taskText}}" bindinput="taskContextChange" />
         <view class="weui-textarea-counter">{{textsize}}/200</view>
       </view>
     </view>
@@ -52,22 +52,25 @@
     </view>
     <view class="weui-cell">
       <view class="weui-cell__bd">
-        <input data-id="taskCost" class="weui-input" placeholder="任务成本" bindinput="taskPriceInput" />
+        <input data-id="taskCost" class="weui-input" placeholder="输入任务成本" bindinput="taskPriceInput" />
       </view>
     </view>
     <view class="weui-cell">
       <view class="weui-cell__bd">
-        <input data-id="taskPay" class="weui-input" placeholder="任务报酬" bindinput="taskPriceInput" />
+        <input data-id="taskPay" class="weui-input" placeholder="输入任务报酬" bindinput="taskPriceInput" />
       </view>
     </view>
   </view>
   <view class="weui-cell pub-price">
-    合计：{{taskTotalPrice}} ¥
+    合计：¥ {{taskTotalPrice}} 
   </view>
 
-  <button class="submit" bindtap="addTask">确认并支付</button>
+  <button class="submit" bindtap="checkPay">确认并支付</button>
   <mp-dialog title="提示" show="{{tipShow}}" bindbuttontap="closeTipDialog" buttons="{{buttons}}" ext-class="">
   {{tipContext}}
+  </mp-dialog>
+   <mp-dialog title="支付提示" show="{{paytipShow}}" bindbuttontap="addTask" buttons="{{paybuttons}}" ext-class="">
+  {{paytipContext}}
   </mp-dialog>
 </view>
 </view>
