@@ -115,7 +115,19 @@ Page({
           })
         });
       }
+
+      // 更新已登录用户的个人信息
+      wx.cloud.callFunction({
+        name: 'queryUser',
+        data: {
+          openid: app.globalData.userAppInfo.openid,
+        }
+      }).then(res => {
+        app.globalData.userAppInfo = res.result[0]
+      });
     }
+
+
     this.setData({
       loading: false
     })

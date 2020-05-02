@@ -144,7 +144,7 @@ Page({
       })
       return;
     }
-    if (app.globalData.userAppInfo.openid == this.task.t_requestor){
+    if (app.globalData.userAppInfo.openid == this.data.task.t_requestor){
       return;
     }
     this.setData({
