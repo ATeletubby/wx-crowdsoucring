@@ -9,7 +9,7 @@
       <span class="list-cell_ft">距离你<b>{{task.t_usDistance}}m</b></span>
     </view>
     <view class="list-cell">
-      <span class="list-cell_bd list-timebegin">{{task.t_time}}前发布</span>
+      <span class="list-cell_bd list-timebegin">剩余{{task.t_deadline}}</span>
       <span class="list-cell_ft">任务路径<b>{{task.t_seDistance}}km</b></span>
     </view>
     <view class="list-cell-tag">

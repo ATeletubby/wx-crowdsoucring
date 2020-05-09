@@ -8,7 +8,8 @@ Page({
   data: {
     taskType: [],
     taskTypeIndex: 0,
-    dtime: "00:00",   // 截止时间
+    dtime: 10,   // 截止时间
+    dtimeRange:[],
     taskVenue:[],
     sVenueIndex: 0,   //起点
     eVenueIndex: 1,   //终点
@@ -17,21 +18,35 @@ Page({
     taskCost: 0,      //任务成本
     taskPay: 0,       //任务报酬
     taskTotalPrice: 0,
-    isNoti: false,
+    isNoti: true,
     tipShow: false,
     tipContext: '',
     paytipShow: false,
     paybuttons: [{ text: '取消' }, { text: '确认' }],
     buttons: [{ text: '关闭' }],
+    errormsg:'',
+    error: false,
+    new_id: null,
   },
   onLoad: function(){
     let _this = this;
+    this.initForm()
     // 得到当前时间
-    let dtime = util.currentTime();
-    _this.setData({
-      dtime: dtime
+    // let dtime = util.currentTime();
+    // _this.setData({
+    //   dtime: dtime
+    // });
+    // 设置任务时长
+    let dtimeRange = [];
+    for (let i = 10; i<=120; i+=10){
+      dtimeRange.push({
+        name: i + '分钟',
+        value: i
+      })
+    }
+    this.setData({
+      dtimeRange: dtimeRange
     })
-
     // 获取任务类型
     wx.cloud.callFunction({
       name: 'queryTaskType',
@@ -39,6 +54,7 @@ Page({
       _this.setData({
         taskType: res.result.data
       })
+      console.log(res.result.data)
     });
 
     //获取地点
@@ -50,6 +66,22 @@ Page({
       })
     });
   },
+  onShow: function () {
+    this.initForm()
+  },
+
+  // 初始化表单
+  initForm: function(){
+    this.setData({
+      new_id: null,
+      taskCost: 0,
+      taskPay: 0,
+      taskText: '',
+      taskTypeIndex: 0,
+      sVenueIndex: 0,
+      eVenueIndex: 1,
+    })
+  },
   taskTypeChange: function (e) {
     this.setData({
       taskTypeIndex: e.detail.value
@@ -57,7 +89,7 @@ Page({
   },
   dtimeChange: function(e){
     this.setData({
-      dtime: e.detail.value
+      dtime: (parseInt(e.detail.value) + 1)* 10
     })
   },
   taskVenueChange: function(e){
@@ -110,14 +142,24 @@ Page({
         tipShow: true,
         tipContext: "任务距离为起点到终点的距离，首页任务排序根据用户与起点的距离计算"
       })
+    } else if (e.currentTarget.dataset.id == "tip-dtime"){
+      this.setData({
+        tipShow: true,
+        tipContext: "任务发布以后根据任务时长进入倒计时，超过任务时长将会自动过期"
+      })
     }
   },
   closeTipDialog: function(){
     this.setData({
       tipShow: false,
     })
+    if (this.data.new_id){
+      wx.navigateTo({
+        title: 'goRegist',
+        url: '/pages/detail/detail?_id=' + this.data.new_id
+      })
+    }
   },
-
 
   checkPay: function(){
     //检验登录(之后写到主函数)
@@ -129,14 +171,34 @@ Page({
       return;
     }
     // 检验非法字段
+    if (this.data.taskText == ''){
+      this.setData({
+        error: true,
+        errormsg: "任务详情不能为空！"
+      })
+      return;
+    }
 
     // 检验众包币
     if (app.globalData.userAppInfo.crowdCoin < this.data.taskTotalPrice) {
       this.setData({
-        tipShow: true,
-        tipContext: "众包币余额不够！还剩 " + app.globalData.userAppInfo.crowdCoin
+        error: true,
+        errormsg: "众包币余额不够！还剩 " + app.globalData.userAppInfo.crowdCoin
       })
       return;
+    }
+
+    // 如果用户开启任务提醒，获取用户订阅权限
+    if (this.data.isNoti) {
+      wx.requestSubscribeMessage({
+        tmplIds: ['0lFGbs_LnR2mW6kjo2mSlIiWTuf2AwtbkKuFTd9WpH8'],
+        success(res) {
+          console.log(res)
+        },
+        fail(res) {
+          console.log(res)
+        }
+      })
     }
 
     this.setData({
@@ -159,14 +221,16 @@ Page({
     let slo = data.taskVenue[data.sVenueIndex].location.coordinates;
     let elo = data.taskVenue[data.eVenueIndex].location.coordinates;
     let t_seDistance = util.calDistance(slo[1], slo[0], elo[1], elo[0]);
-    console.log(data.dtime);
+    // 计算当前时间和截止时间戳
+    let t_time = new Date().getTime();
+    let t_deadline = t_time + data.dtime * 60 * 1000;
     wx.cloud.callFunction({
       name: 'addTask',
       data: {
         t_requestor: app.globalData.openid,
         t_type: data.taskType[data.taskTypeIndex]._id,
-        t_time: new Date().getTime(),
-        t_deadline: data.dtime,
+        t_time: t_time,
+        t_deadline: t_deadline,
         t_eVenue: data.taskVenue[data.eVenueIndex]._id,
         t_sVenue: data.taskVenue[data.sVenueIndex]._id,
         t_price: data.taskPay,
@@ -181,11 +245,9 @@ Page({
       _this.setData({
         tipShow: true,
         paytipShow: false,
-        tipContext: "成功创建任务！"
+        tipContext: "成功创建任务！",
+        new_id: res.result._id 
       })
-      // wx.switchTab({
-      //   url: '/pages/profile/profile'
-      // })
     });
   },
 })

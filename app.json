@@ -5,7 +5,9 @@
     "pages/profile/profile",
     "pages/detail/detail",
     "pages/config/config",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/regist/regist",
+    "pages/editProfile/editProfile"
   ],
   "window": {
     "backgroundTextStyle": "light",

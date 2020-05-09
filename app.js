@@ -60,24 +60,23 @@ App({
     wx.cloud.callFunction({
       name: 'getOpenid',
     }).then(res => {
+      console.log(res)
       this.globalData.openid = res.result.openid;
+
     });
 
-    // 获取用户位置
-    wx.getLocation({
-      type: 'wgs84',
-      success: res => {
-        this.globalData.userLocation = {
-          'latitude': res.latitude,
-          'longitude': res.longitude
-        }
-      }
-    })
-    wx.getUserInfo({
-      success: res =>{
-        console.log(res);
-      }
-    })
+    // // 获取用户位置
+    // wx.getLocation({
+    //   type: 'wgs84',
+    //   success: res => {
+    //     console.log(res);
+    //     this.globalData.userLocation = {
+    //       'latitude': res.latitude,
+    //       'longitude': res.longitude
+    //     }
+    //     this.onLoad()
+    //   }
+    // })
     // wx.loadFontFace({
     //   family: 'Bitstream Vera Serif Bold',
     //   source: 'url("https://sungd.github.io/Pacifico.ttf")',

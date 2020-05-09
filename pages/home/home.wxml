@@ -2,30 +2,31 @@
   <mp-searchbar ext-class="top-searchbar" bindblur="selectResult" search="{{search}}" bindinput="searchbarInput"></mp-searchbar>
   <view class="navbar"> 
     <view id="type_bar" class="navbar_item {{isType ? 'navbar_item_selected' : ''}}" bindtap="openTopbarContent">
-      任务类型
-       <fa icon="fa {{isType ? 'fa-caret-up' : 'fa-caret-down'}}"></fa>
-    </view>
-    <span>|</span>
-    <view id="filter_bar" class="navbar_item {{isFilter ? 'navbar_item_selected' : ''}}" bindtap="openTopbarContent">
       筛选
-      <fa icon="fa {{isFilter ? 'fa-caret-up' : 'fa-caret-down'}}"></fa>
+       <fa icon="fa {{isType ? 'fa-caret-up' : 'fa-caret-down'}}" ></fa>
+    </view>
+    <!-- <span>|</span> -->
+    <view id="time_bar" class="navbar_item {{isFilter == 1 ? 'navbar_item_selected' : ''}}" bindtap="openTopbarContent">
+      按时间
+      <fa icon="fa {{isTime == 1 ? 'fa-caret-up' : 'fa-caret-down'}}" wx:if="{{isFilter == 1}}"></fa>
+    </view>
+    <!-- <span>|</span> -->
+    <view id="price_bar" class="navbar_item {{isFilter == 2 ? 'navbar_item_selected' : ''}}" bindtap="openTopbarContent">
+      按价格
+      <fa icon="fa {{isPrice ? 'fa-caret-up' : 'fa-caret-down'}}" wx:if="{{isFilter == 2}}"></fa>
+    </view>
+    <!-- <span>|</span> -->
+    <view id="distance_bar" class="navbar_item {{isFilter == 3 ? 'navbar_item_selected' : ''}}" bindtap="openTopbarContent">
+      按距离
+      <fa icon="fa {{isDistance ? 'fa-caret-up' : 'fa-caret-down'}}" wx:if="{{isFilter == 3}}"></fa>
     </view>
   </view>
   <view class="topbar_content" wx:if="{{isType}}">
       <view class="topbar_tag">
-         <button wx:for="{{typeItems}}" wx:key="value" bindtap="typeItems" label="selectedItems" value="{{item.value}}" data-id="{{item.value}}" class="{{ item.status ? '.topbar_tag_selected' : '' }}">{{item.name}}</button>
+         <button wx:for="{{typeItems}}"  wx:key="value" bindtap="typeItems" label="selectedItems" value="{{item.value}}" data-id="{{item.value}}" class="typebutton {{ item.status ? '.topbar_tag_selected' : '' }}">{{item.name}}</button>
       </view>
       <view class="topbar_button">
         <button type="reset" id="type_bar" bindtap="openTopbarContent">关闭</button>
-        <button class="submit" bindtap="refreshTaskList">确认</button>
-      </view>
-  </view>
-  <view class="topbar_content" wx:if="{{isFilter}}">
-      <view class="topbar_tag">
-        <button wx:for="{{selectedItems}}" wx:key="value" bindtap="selectedItems"  label="selectedItems" value="{{item.value}}" data-id="{{item.value}}" class="{{ item.status ? '.topbar_tag_selected' : '' }}">{{item.name}}</button>
-      </view>
-      <view class="topbar_button">
-        <button type="reset" id="filter_bar" bindtap="openTopbarContent">关闭</button>
         <button class="submit" bindtap="refreshTaskList">确认</button>
       </view>
   </view>

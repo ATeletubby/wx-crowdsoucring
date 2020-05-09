@@ -49,6 +49,7 @@ Page({
       }
     }).then(res => {
       res.result.t_timeDiff = util.transformTime(res.result.t_time);
+      res.result.t_deadline = util.transformDtime(res.result.t_deadline);
       res.result.t_time = util.formatTime(res.result.t_time);
       let mapMarkers= [];
       mapMarkers[0] = {
@@ -162,8 +163,27 @@ Page({
       if (_this.data.task.t_status == 0 && app.globalData.userAppInfo.openid != _this.data.task.t_requestor) {   // 接受任务
         updateData.operation = 1;
         updateData.t_worker = app.globalData.userAppInfo.openid
+
+        wx.cloud.callFunction({
+          name: 'notiUser',
+          data: {
+            worker: app.globalData.userAppInfo,
+            task: _this.data.task
+          }
+        }).then(res =>{
+          console.log(res)
+        })
       } else if (_this.data.task.t_status == 0 && app.globalData.userAppInfo.openid == _this.data.task.t_requestor) {  // 关闭任务
         updateData.operation = 3
+        // wx.cloud.callFunction({
+        //   name: 'notiUser',
+        //   data: {
+        //     worker: app.globalData.userAppInfo,
+        //     task: _this.data.task
+        //   }
+        // }).then(res => {
+        //   console.log(res)
+        // })
       } else if (_this.data.task.t_status == 1 && app.globalData.userAppInfo.openid == _this.data.task.t_requestor){   // 完成任务
         // 计算新的reputation
         let mark = _this.data.markStars.filter((item) => { return item == 1 }).length;

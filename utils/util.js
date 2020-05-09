@@ -25,7 +25,9 @@ const currentTime = () => {
   return [hour, minute].map(formatNumber).join(':')
 }
 
-// 当前时间与time的差值
+
+
+// 当前时间与发布时间的差值
 const transformTime = (time)=> {
   let currentTime = new Date();
   let t = currentTime.getTime() - time;
@@ -42,6 +44,25 @@ const transformTime = (time)=> {
   } else {
     return second + '秒'
   }
+}
+
+// 当前时间和截止时间的差值
+const transformDtime = (time) => {
+  let currentTime = new Date();
+  let t = time -  currentTime.getTime();
+  let hour = parseInt(t / (1000 * 60 * 60))
+  let minute = parseInt(t / (1000 * 60))
+  let day = parseInt(t / (1000 * 60 * 60 * 24))
+  let second = parseInt(t / (1000))
+  if (minute > 60){
+    hour = parseInt(minute / 60);
+    minute = minute - hour * 60
+    return hour + '小时' + minute+ '分钟'
+  }
+  else if (minute <= 60)
+    return minute + '分钟'
+  else
+    return second + '秒'
 }
 
 // 计算距离
@@ -61,5 +82,6 @@ module.exports = {
   formatTime: formatTime,
   currentTime: currentTime,
   transformTime: transformTime,
+  transformDtime: transformDtime,
   calDistance: calDistance
 }

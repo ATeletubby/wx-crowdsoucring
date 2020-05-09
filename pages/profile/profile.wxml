@@ -2,7 +2,8 @@
   <view class="profile_top">
     <view class="profile_top_hd">
       <view class="profile-avatar">
-        <open-data type="userAvatarUrl" lang="zh_CN"></open-data>
+        <image type="userAvatarUrl" src="{{userAppInfo.avatarUrl}}" wx:if="{{ userAppInfo }}" bindtap="editProfile" mode="widthFix"></image>
+        <open-data type="userAvatarUrl" lang="zh_CN" wx:else  bindtap="editProfile"></open-data>
       </view>
     </view>
     <view class="profile_top_bd" wx:if="{{ userAppInfo }}">

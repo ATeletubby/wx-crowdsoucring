@@ -1,0 +1,23 @@
+
+<view class="regist">
+<mp-toptips msg="{{errormsg}}" type="error" show="{{error}}"></mp-toptips>
+  <view class="reg_header">绑定手机号</view>
+  <view class="reg_tip">为保障账号安全及相关功能正常使用，请先绑定手机号。</view>
+  <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd weui-cell__bd_in-select-before">
+            <input class="weui-input" placeholder="有效手机号" bindinput="phoneInput" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_vcode">
+        <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="短信动态码" bindinput="taskPriceInput" disabled/>
+        </view>
+        <view class="weui-vcode-btn">获取验证码</view>
+      </view>
+  </view>
+  <view class="weui-btn-area">
+      <button class="weui-btn submit" bindtap="submitForm">完成</button>
+  </view>
+  
+</view>

@@ -8,10 +8,9 @@
         <image class="detail-item_thumb" mode="heightFix" src="{{task.requestor[0].avatarUrl}}" />
       </view>
       <view class="detail_top_bd">
-        <text class="detail-text">{{task.requestor[0].name}}</text>
-        <text class="detail-text detail-time">{{task.t_timeDiff}}前发布</text>
-        <text class="detail-text detail-time">浏览数：{{task.t_visited}}</text>
-        <!-- <text class="detail-text detail-phone">111111</text> -->
+        <view class="detail-text">{{task.requestor[0].name}}</view>
+        <view class="detail-text detail-phone" wx:if="{{userAppInfo.openid == task.requestor[0].openid || userAppInfo.openid == task.worker[0].openid }}"><fa icon="fa fa-phone"></fa>{{task.requestor[0].phone}}</view>
+        <view class="detail-text detail-phone" wx:else><fa icon="fa fa-phone"></fa> 接受任务后可查看联系方式</view>
       </view>
     </view>
   </view>
@@ -22,10 +21,14 @@
         <image class="detail-item_thumb" mode="heightFix" src="{{task.worker[0].avatarUrl}}" />
       </view>
       <view class="detail_top_bd">
-        <text class="detail-text">{{task.worker[0].name}}</text>
-        <fa icon="fa fa-star" style="color:#FFF08D;font-size:32rpx" wx:for="{{reputation.round}}" wx:key="item"></fa>
-        <fa icon="fa fa-star-half" style="color:#FFF08D;font-size:32rpx" wx:if="{{reputation.half}}"></fa>
-        <text class="detail-text detail-time">声誉：{{task.worker[0].reputation}} </text>
+        <view class="detail-text">{{task.worker[0].name}}</view>
+        <view class="detail-text detail-phone">
+  
+          声誉：<fa icon="fa fa-star" style="color:#FFF08D;font-size:32rpx" wx:for="{{reputation.round}}" wx:key="item"></fa>
+          <fa icon="fa fa-star-half" style="color:#FFF08D;font-size:32rpx" wx:if="{{reputation.half}}"></fa>
+          <text wx:if="{{task.worker[0].par_num == 0}}">未参与过任务</text>
+        </view>
+        <view class="detail-text detail-phone"><fa icon="fa fa-phone"></fa>{{task.worker[0].phone}}</view>
         <!-- <text class="detail-text detail-phone">111111</text> -->
       </view>
     </view>
@@ -39,10 +42,10 @@
       </view>
       <view class="detail-content flex-row flex-cell">
         <text class="flex-row flex-cell detail-label">发布时间</text>
-        <text class="flex-row flex-cell">{{task.t_time}}</text>
+        <text class="flex-row flex-cell">{{task.t_timeDiff}}前</text>
       </view>
       <view class="detail-content flex-row flex-cell">
-        <text class="flex-row flex-cell detail-label">截止时间</text>
+        <text class="flex-row flex-cell detail-label">剩余时间</text>
         <text class="flex-row flex-cell">{{task.t_deadline}}</text>
       </view>
       <view class="detail-content flex-row flex-cell">
@@ -62,6 +65,17 @@
       <view class="detail-content flex-row flex-cell">
         <text class="flex-row flex-cell detail-label">备注内容</text>
         <text class="flex-cell detail-context">{{task.t_context}}</text>
+      </view>
+      <view class="detail-content flex-row flex-cell">
+        <text class="flex-row flex-cell detail-label">游览次数</text>
+        <text class="flex-row flex-cell">{{task.t_visited}}</text>
+      </view>
+      <view class="detail-content flex-row flex-cell">
+        <text class="flex-row flex-cell detail-label">任务状态</text>
+        <text class="flex-row flex-cell" wx:if="{{task.t_status == 0}}">等待接受中</text>
+        <text class="flex-row flex-cell" wx:elif="{{task.t_status == 1}}">任务已接收</text>
+        <text class="flex-row flex-cell" wx:elif="{{task.t_status == 2}}">任务已完成</text>
+        <text class="flex-row flex-cell" wx:elif="{{task.t_status == 3}}">任务已关闭</text>
       </view>
     </view>
     <button class="submit detail-btn" wx:if="{{task.t_status == 0 && userAppInfo.openid != task.t_requestor}}" bindtap="showDialog">接受任务</button>

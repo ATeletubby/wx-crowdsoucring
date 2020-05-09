@@ -77,6 +77,7 @@ Page({
     })
   },
   onShow: function (){
+    console.log(app.globalData.userAppInfo)
     let _this = this
     this.setData({
       loading: true
@@ -230,5 +231,12 @@ Page({
         title: 'go',
         url: '/pages/detail/detail?_id=' + e.currentTarget.dataset.tid
       })
+  },
+  editProfile: function(e){
+    console.log(e);
+    wx.navigateTo({
+      title: 'goProfileEdit',
+      url: '/pages/editProfile/editProfile',
+    })
   }
 })

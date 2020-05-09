@@ -24,11 +24,17 @@ exports.main = async (event, context) => {
   //   matchRule.t_context = event.t_context
   // }
 
-  let sortWay = 't_time';
-  if (event.sortWay == 2){
+  let sortWay = 't_time';  //默认按发布时间降序
+  let isAsc = -1;
+  if (event.sortWay == 1){
+    sortWay = 't_deadline';
+  } else if (event.sortWay == 3){
     sortWay = 't_seDistance';
-  } else if (event.sortWay == 1){
+  } else if (event.sortWay == 2){
     sortWay = 't_price';
+  }
+  if (event.isAsc){
+    isAsc = 1
   }
   if (event.t_requestor){
     matchRule.t_requestor = event.t_requestor
@@ -64,7 +70,7 @@ exports.main = async (event, context) => {
       as: 'eVenue',
     })
     .sort({
-      [sortWay]: -1
+      [sortWay]: isAsc
     })
     .skip(limit * event.page)
     .limit(limit)

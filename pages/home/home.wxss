@@ -73,3 +73,6 @@
   padding: 30rpx;
   /* display: flex; */
 }
+button.typebutton{
+  width: 40% !important; 
+}

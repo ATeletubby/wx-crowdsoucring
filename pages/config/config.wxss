@@ -19,6 +19,7 @@
   /* -webkit-transform: rotate(-130deg); */
 }
 button.feedback-button{
+  display: inline-block;
   background-color: #ffffff;
   width: 100%;
   align-items: center;

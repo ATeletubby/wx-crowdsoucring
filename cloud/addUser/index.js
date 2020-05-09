@@ -7,35 +7,54 @@ const db = cloud.database();
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   try {
-    return await db.collection('user').where({
-      openid: wxContext.OPENID,
-    }).get().then(res => {
-      // 如果是新用户
-      let userInfo = JSON.parse(event.userInfo);    // 字符串转对象
-      if (res.data.length == 0) {
-        db.collection('user').add({
-          data: {
-            name: userInfo.nickName,
-            openid: wxContext.OPENID,
-            last_login_time: Date(),
-            regist_time: Date(),
-            par_num: 0,
-            pub_num: 0,
-            reputation: 0,
-            avatarUrl: userInfo.avatarUrl,
-            crowdCoin: 100,
-          }
-        })
-      } else {
-        db.collection('user').where({
-          openid: wxContext.OPENID
-        }).update({
-          data: {
-            last_login_time: Date(),
-          }
-        })
+    // return await db.collection('user').where({
+    //   openid: wxContext.OPENID,
+    // }).get().then(res => {
+    //   // 如果是新用户
+    //   let userInfo = JSON.parse(event.userInfo);    // 字符串转对象
+    //   if (res.data.length == 0) {
+    //     db.collection('user').add({
+    //       data: {
+    //         name: userInfo.nickName,
+    //         openid: wxContext.OPENID,
+    //         last_login_time: Date(),
+    //         regist_time: Date(),
+    //         par_num: 0,
+    //         pub_num: 0,
+    //         reputation: 0,
+    //         avatarUrl: userInfo.avatarUrl,
+    //         crowdCoin: 100,
+    //         phone: event.phone,
+    //       }
+    //     })
+    //   } else {
+    //     db.collection('user').where({
+    //       openid: wxContext.OPENID
+    //     }).update({
+    //       data: {
+    //         last_login_time: Date(),
+    //       }
+    //     })
+    //   }
+    //   return res.data;
+    // })
+
+    let userInfo = JSON.parse(event.userInfo);
+    return await db.collection('user').add({
+      data: {
+        name: userInfo.nickName,
+        openid: wxContext.OPENID,
+        last_login_time: Date(),
+        regist_time: Date(),
+        par_num: 0,
+        pub_num: 0,
+        reputation: 0,
+        avatarUrl: userInfo.avatarUrl,
+        crowdCoin: 100,
+        phone: event.phone,
       }
-      return res.data;
+    }).then(res => {
+      return res
     })
   } catch (e){
     console.error(e)

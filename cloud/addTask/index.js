@@ -33,6 +33,19 @@ exports.main = async (event, context) => {
         t_worker: '',
         t_seDistance: parseInt(event.t_seDistance),
       }
+    }).then(res =>{
+      // 定时触发updateOutdatedTask
+      setTimeout(()=>{
+        db.collection('task').where({
+          _id: res._id
+        }).update({
+          data: {
+            t_status: 3
+          }
+        })
+      }, event.t_deadline - event.t_time)
+
+      return res;
     })
   }catch (e) {
     console.error(e)

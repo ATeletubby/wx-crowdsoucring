@@ -82,6 +82,13 @@
 					"id": -1,
 					"name": "pages/login/login",
 					"pathName": "pages/login/login",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/regist/regist",
+					"pathName": "pages/regist/regist",
 					"scene": null
 				}
 			]

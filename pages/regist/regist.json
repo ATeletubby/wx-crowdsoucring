@@ -2,5 +2,5 @@
   "usingComponents": {
     "mp-toptips": "../../components/weui-miniprogram/toptips/toptips"
   },
-  "navigationBarTitleText": "发布任务"
+  "navigationBarTitleText": "个人信息绑定"
 }
