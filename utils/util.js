@@ -50,6 +50,8 @@ const transformTime = (time)=> {
 const transformDtime = (time) => {
   let currentTime = new Date();
   let t = time -  currentTime.getTime();
+  if (t < 0)
+    return '已超时'
   let hour = parseInt(t / (1000 * 60 * 60))
   let minute = parseInt(t / (1000 * 60))
   let day = parseInt(t / (1000 * 60 * 60 * 24))

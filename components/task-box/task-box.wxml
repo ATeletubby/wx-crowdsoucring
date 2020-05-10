@@ -10,7 +10,7 @@
     </view>
     <view class="list-cell">
       <span class="list-cell_bd list-timebegin">剩余{{task.t_deadline}}</span>
-      <span class="list-cell_ft">任务路径<b>{{task.t_seDistance}}km</b></span>
+      <span class="list-cell_ft">任务距离<b>{{task.t_seDistance}}km</b></span>
     </view>
     <view class="list-cell-tag">
         <span class="list-tag">#{{task.taskType[0].name}}</span>
