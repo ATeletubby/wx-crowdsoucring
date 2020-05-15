@@ -35,3 +35,7 @@
   color: #F79840;
   margin-left:10rpx;
 }
+.weui-dialog__btn.disabled{
+  pointer-events:none;
+  background-color: #ccc;
+}

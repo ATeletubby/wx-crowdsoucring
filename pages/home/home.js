@@ -75,7 +75,8 @@ Page({
     _this.setData({
       tasks: [],
       loading: true,
-      page: 0
+      page: 0,
+      isBottom: false,
     })
     // 选中的排序类型
     let sortWay = _this.data.isFilter;

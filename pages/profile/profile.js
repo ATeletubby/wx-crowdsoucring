@@ -29,6 +29,7 @@ Page({
     }],
     loading: true,
     page: 0,
+    isBottom: false,
   },
 
   /**
@@ -37,39 +38,10 @@ Page({
   onLoad: function (options) {
     let _this = this
     console.log(app.globalData.userAppInfo)
-    this.setData({
-      userInfo: app.globalData.userInfo,
-      userAppInfo: app.globalData.userAppInfo
-    });
-    // 得到用户的reputation
-    this.setData({
-      'reputation.round' : parseInt(this.data.reputation.value)
-    });
-    if (this.data.reputation.value - this.data.reputation.round >= 0.5){
+    if (app.globalData.userInfo && app.globalData.userAppInfo){
       this.setData({
-        'reputation.half': true
-      });
-    }
-
-    // 得到用户发布任务
-    if (app.globalData.userAppInfo){
-      wx.cloud.callFunction({
-        name: 'queryTaskList',
-        data: {
-          t_status: 3,
-          openid: app.globalData.userAppInfo.openid,
-          page: _this.data.page
-        }
-      }).then(res => {
-        console.log(res.result);
-        // 处理返回的数据
-        let list = res.result.list;
-        for (let i = 0; i < list.length; i++) {
-          list[i].t_time = util.transformTime(list[i].t_time)
-        }
-        _this.setData({
-          pubTasks: list
-        })
+        userInfo: app.globalData.userInfo,
+        userAppInfo: app.globalData.userAppInfo
       });
     }
     this.setData({
@@ -77,23 +49,31 @@ Page({
     })
   },
   onShow: function (){
-    console.log(app.globalData.userAppInfo)
     let _this = this
     this.setData({
       loading: true
     })
-    if (app.globalData.userAppInfo || app.globalData.userInfo){
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        userAppInfo: app.globalData.userAppInfo,
-        'reputation.value': app.globalData.userAppInfo.reputation,
-        'reputation.round': parseInt(app.globalData.userAppInfo.reputation)
-      });
-      if (this.data.reputation.value - this.data.reputation.round >= 0.5) {
+    if (app.globalData.userAppInfo){
+      // 更新已登录用户的个人信息（后期可以监听user表数据的变化，如果变化了再更新）
+      wx.cloud.callFunction({
+        name: 'queryUser',
+        data: {
+          openid: app.globalData.userAppInfo.openid,
+        }
+      }).then(res => {
+        app.globalData.userAppInfo = res.result[0]
         this.setData({
-          'reputation.half': true
+          userAppInfo: app.globalData.userAppInfo,
+          'reputation.value': app.globalData.userAppInfo.reputation,
+          'reputation.round': parseInt(app.globalData.userAppInfo.reputation)
         });
-      }
+        if (this.data.reputation.value - this.data.reputation.round >= 0.5) {
+          this.setData({
+            'reputation.half': true
+          });
+        }
+      });
+
 
       // 得到用户发布任务
       if (app.globalData.userAppInfo) {
@@ -116,16 +96,6 @@ Page({
           })
         });
       }
-
-      // 更新已登录用户的个人信息
-      wx.cloud.callFunction({
-        name: 'queryUser',
-        data: {
-          openid: app.globalData.userAppInfo.openid,
-        }
-      }).then(res => {
-        app.globalData.userAppInfo = res.result[0]
-      });
     }
 
 
@@ -133,6 +103,71 @@ Page({
       loading: false
     })
   },
+
+  // 翻页
+  onReachBottom: function () {
+    if (this.data.isBottom) {
+      return
+    }
+    let _this = this
+    let page = this.data.page + 1;
+    this.setData({
+      sloading: true,
+      page: page
+    });
+    if (this.data.isPublish){
+      wx.cloud.callFunction({
+        name: 'queryTaskList',
+        data: {
+          t_status: 3,
+          t_requestor: app.globalData.userAppInfo.openid,
+          page: page
+        }
+      }).then(res => {
+        if (res.result.list.length < 4) {
+          _this.setData({
+            isBottom: true
+          })
+        }
+        // 处理返回的数据
+        let list = res.result.list;
+        let pubTasks = this.data.pubTasks;
+        for (let i = 0; i < list.length; i++) {
+          list[i].t_time = util.transformTime(list[i].t_time)
+          pubTasks.push(list[i])
+        }
+        _this.setData({
+          pubTasks: pubTasks
+        })
+      });
+    } else {
+      wx.cloud.callFunction({
+        name: 'queryTaskList',
+        data: {
+          t_status: 3,
+          t_worker: app.globalData.userAppInfo.openid,
+          page: page
+        }
+      }).then(res => {
+        if (res.result.list.length < 4) {
+          _this.setData({
+            isBottom: true
+          })
+        }
+        // 处理返回的数据
+        let list = res.result.list;
+        let parTasks = this.data.parTasks;
+        for (let i = 0; i < list.length; i++) {
+          list[i].t_time = util.transformTime(list[i].t_time)
+          parTasks.push(list[i])
+        }
+        _this.setData({
+          parTasks: parTasks
+        })
+      });
+    }
+  },
+
   openConfig: function(){
     wx.navigateTo({
       title: 'goConfig',
@@ -143,7 +178,9 @@ Page({
     let _this = this
     this.setData({
       isPublish: true,
-      pubTasks: []
+      pubTasks: [],
+      page: 0,
+      isBottom: false
     })
     // 得到用户发布任务
     if (app.globalData.userAppInfo) {
@@ -175,7 +212,9 @@ Page({
     let _this = this
     this.setData({
       isPublish: false,
-      parTasks:[]
+      parTasks:[],
+      page: 0,
+      isBottom: false
     })
     // 得到用户参与任务
     if (app.globalData.userAppInfo) {

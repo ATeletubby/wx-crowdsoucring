@@ -13,13 +13,26 @@ Page({
       latitude: 23.099994,
       longitude: 113.324520,
       width: 50,
-      height: 50
+      height: 50,
     },{
       id: 1,
       latitude: 23.099994,
       longitude: 113.323519,
       width: 50,
       height: 50
+    }],
+    polyline: [{
+      points: [{
+        longitude: 113.3245211,
+        latitude: 23.10229
+      }, {
+        longitude: 113.324520,
+        latitude: 23.21229
+      }],
+      color: "#FF0000DD",
+      width: 10,
+      dottedLine: true,
+      arrowLine: true
     }],
     mapShow: false,
     rateShow: false,
@@ -52,20 +65,43 @@ Page({
       res.result.t_deadline = util.transformDtime(res.result.t_deadline);
       res.result.t_time = util.formatTime(res.result.t_time);
       let mapMarkers= [];
+      let points = [];
       mapMarkers[0] = {
         id: 0,
         latitude: res.result.sVenue[0].location.coordinates[1],
         longitude: res.result.sVenue[0].location.coordinates[0],
         width: 50,
-        height: 50
+        height: 50,
+        label: {
+          content: '起点',
+          bgColor: '#435990',
+          color: '#fff'
+        }
       };
       mapMarkers[1] = {
         id: 1,
         latitude: res.result.eVenue[0].location.coordinates[1],
         longitude: res.result.eVenue[0].location.coordinates[0],
         width: 50,
-        height: 50
+        height: 50,
+        label: {
+          content: '终点',
+          bgColor: '#435990',
+          color: '#fff'
+        }
       };
+      points[0] = {
+        latitude: res.result.sVenue[0].location.coordinates[1],
+        longitude: res.result.sVenue[0].location.coordinates[0],
+      }
+      points[1] = {
+        latitude: res.result.eVenue[0].location.coordinates[1],
+        longitude: res.result.eVenue[0].location.coordinates[0],
+      }
+      points[2] = {
+        latitude: res.result.eVenue[0].location.coordinates[1],
+        longitude: res.result.eVenue[0].location.coordinates[0],
+      }
       // 计算工人的reputation相关
       let round = 0, half = 0
       if (res.result.worker.length != 0){
@@ -75,6 +111,7 @@ Page({
       _this.setData({
         task: res.result,
         mapMarkers: mapMarkers,
+        'polyline.points': points,
         loading: false,
         userAppInfo: app.globalData.userAppInfo,
         'reputation.round':round,
@@ -153,7 +190,7 @@ Page({
       dialogContent: '是否接受任务？未完成任务将影响声誉'
     });
   },
-  tapDialogButton(e) {
+  tapDialogButton: util.debounce(function(e){
     let _this = this;
     if(e.detail.index == 1) {
       // 选择确定，将status变化提交给云服务
@@ -197,17 +234,15 @@ Page({
         data: updateData,
       }).then(res =>{
         _this.setData({
-          'task.t_status': updateData.operation
+          'task.t_status': updateData.operation,
+          dialogShow: false,
+          rateShow: false
         })
         _this.onLoad({_id : _this.data.task._id})
       });
     } 
-    this.setData({
-      dialogShow: false,
-      rateShow: false
-    })
     
-  },
+  }),
   tapDialogMapButton(e) {
     this.setData({
       mapShow: false

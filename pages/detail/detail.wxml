@@ -89,7 +89,7 @@
     <view>{{dialogContent}}</view>
   </mp-dialog>
   <mp-dialog title="" show="{{mapShow}}" bindbuttontap="tapDialogMapButton" buttons="{{mapbuttons}}" ext-class="map-dialog">
-    <map id="map" longitude="{{mapMarkers[0].longitude}}" latitude="{{mapMarkers[0].latitude}}" scale="14" controls="{{controls}}" bindcontroltap="controltap" markers="{{mapMarkers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange"
+    <map id="map" longitude="{{mapMarkers[0].longitude}}" latitude="{{mapMarkers[0].latitude}}" scale="18" controls="{{controls}}" bindcontroltap="controltap" markers="{{mapMarkers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange"
       show-location style="width: 100%; height: 300px;"></map>
   </mp-dialog>
   <mp-dialog title="评价{{task.worker[0].name}}的工作" show="{{rateShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">

@@ -80,10 +80,49 @@ const calDistance =  (la1, lo1, la2, lo2) => {
   return s
 }
 
+// 事件防抖
+const debounce = function(fn, wait) {
+  var timer = null;
+  // 默认waittime 为 300ms
+  var waittime = wait || 300;
+  return function () {
+    var context = this,
+      args = arguments;
+
+    // 如果此时存在定时器的话，则取消之前的定时器重新记时
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+
+    // 设置定时器，使事件间隔指定事件后执行
+    timer = setTimeout(() => {
+      fn.apply(context, args);
+    }, waittime);
+  };
+}
+
+// 事件节流
+const throttle = function(fn, wait) {
+  var prev = Date.now();
+  // 默认delay 为 1s;
+  var delay = wait || 1000;
+  return function(){
+    var context = this,args = arguments;
+    var now = Date.now();
+    if(now - prev >= delay){
+      fn.apply(context, args);
+      prev = Date.now();
+    }
+  }
+}
+
 module.exports = {
   formatTime: formatTime,
   currentTime: currentTime,
   transformTime: transformTime,
   transformDtime: transformDtime,
-  calDistance: calDistance
+  calDistance: calDistance,
+  debounce: debounce,
+  throttle: throttle
 }
