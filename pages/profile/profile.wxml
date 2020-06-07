@@ -51,62 +51,13 @@
     </view>
     <block wx:if="{{isPublish}}">
       <view class="weui-cells" wx:for="{{pubTasks}}" wx:for-index="key" bindtap="openTaskDetail" data-tid="{{item._id}}">
-        <mp-slideview buttons="{{slideButtons}}" bindbuttontap="dealPubTask" data-pubIndex="{{key}}">
-          <view class="profile-item">
-            <view class="profile-item_hd">
-              <image class="profile-item_thumb" src="{{item.requestor[0].avatarUrl}}" />
-            </view>
-            <view class="profile-item_bd">
-              <view class="profile-cell">
-                <span class="">{{item.requestor[0].name}}</span>
-                <span class="profile-calendar">
-                  <fa icon="fa fa-calendar"></fa>
-                  <text style="padding-left: 6rpx">{{item.t_time}}前</text>
-                </span>
-              </view>
-              <view class="profile-cell">
-                <text class="profile-tag-list">
-                <text class="profile-tag">#{{item.taskType[0].name}}</text>
-                <text class="profile-tag">#{{item.sVenue[0].name}}</text>
-                </text>
-                <text class="profile-status profile-status-c" wx:if="{{ item.t_status == 0 }}">未接收</text>
-                <text class="profile-status profile-status-s" wx:if="{{ item.t_status == 1 }}">进行中</text>
-                <text class="profile-status profile-status-c" wx:elif="{{ item.t_status == 2 }}">已完成</text>
-                <text class="profile-status profile-status-f" wx:elif="{{ item.t_status == 3 }}">已关闭</text>
-              </view>
-            </view>
-          </view>
-        </mp-slideview>
-
+          <task-box-slide task="{{item}}" data-pubIndex="{{key}}"></task-box-slide>
       </view>
     </block>
     <block wx:elif="{{!isPublish}}">
       <view class="weui-cells" wx:for="{{parTasks}}" wx:for-index="key" bindtap="openTaskDetail" data-tid="{{item._id}}">
         <mp-slideview buttons="{{slideButtons}}" bindbuttontap="dealPubTask" data-pubIndex="{{key}}">
-          <view class="profile-item">
-            <view class="profile-item_hd">
-              <image class="profile-item_thumb" src="{{item.requestor[0].avatarUrl}}" />
-            </view>
-            <view class="profile-item_bd">
-              <view class="profile-cell">
-                <span class="">{{item.requestor[0].name}}</span>
-                <span class="profile-calendar">
-                  <fa icon="fa fa-calendar"></fa>
-                  <text style="padding-left: 6rpx">{{item.t_time}}前</text>
-                </span>
-              </view>
-              <view class="profile-cell">
-                <text class="profile-tag-list">
-                <text class="profile-tag">#{{item.taskType[0].name}}</text>
-                <text class="profile-tag">#{{item.sVenue[0].name}}</text>
-                </text>
-                <text class="profile-status profile-status-c" wx:if="{{ item.t_status == 0 }}">未接收</text>
-                <text class="profile-status profile-status-s" wx:if="{{ item.t_status == 1 }}">进行中</text>
-                <text class="profile-status profile-status-c" wx:elif="{{ item.t_status == 2 }}">已完成</text>
-                <text class="profile-status profile-status-f" wx:elif="{{ item.t_status == 3 }}">已关闭</text>
-              </view>
-            </view>
-          </view>
+        <task-box-slide task="{{item}}"></task-box-slide>
         </mp-slideview>
 
       </view>

@@ -57,7 +57,7 @@
 }
 .topbar_button{
   display: flex;
-  margin-top: 100rpx;
+  margin-top: 50rpx;
 }
 .topbar_button button{
   border-radius: 5%;
@@ -65,7 +65,7 @@
   color:#737C93;
 }
 .topbar_tag button.topbar_tag_selected{
-  background-color: #F8D34E;
+  background-color: #FFF1BE;
   border: none;
 }
 

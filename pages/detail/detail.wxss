@@ -9,6 +9,8 @@
   background-color: #fff;
   margin-bottom: 30rpx;
   padding: 12rpx 30rpx;
+  /* border-radius: 16rpx; */
+  border-radius: 20rpx 0rpx 20rpx 0rpx;
 }
 .detail_top_hd {
   width: 120rpx;

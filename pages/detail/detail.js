@@ -9,30 +9,25 @@ Page({
   data: {
     task: {},
     mapMarkers:[{
+      iconPath: '../../assets/images/mapmarker.png',
       id: 0,
       latitude: 23.099994,
       longitude: 113.324520,
       width: 50,
-      height: 50,
+      height: 100,
     },{
       id: 1,
-      latitude: 23.099994,
-      longitude: 113.323519,
+      latitude: 31.29367,
+      longitude: 121.554215,
       width: 50,
       height: 50
     }],
     polyline: [{
-      points: [{
-        longitude: 113.3245211,
-        latitude: 23.10229
-      }, {
-        longitude: 113.324520,
-        latitude: 23.21229
-      }],
-      color: "#FF0000DD",
-      width: 10,
+      points: [],
+      color: "#F8D34E",
+      width: 3,
       dottedLine: true,
-      arrowLine: true
+      arrowLine: true,
     }],
     mapShow: false,
     rateShow: false,
@@ -67,27 +62,29 @@ Page({
       let mapMarkers= [];
       let points = [];
       mapMarkers[0] = {
+        iconPath: '../../assets/images/mapmarker.png',
         id: 0,
         latitude: res.result.sVenue[0].location.coordinates[1],
         longitude: res.result.sVenue[0].location.coordinates[0],
-        width: 50,
-        height: 50,
         label: {
           content: '起点',
-          bgColor: '#435990',
-          color: '#fff'
+          bgColor: '#F8D34E',
+          color: '#000',
+          borderRadius: 6,
+          padding: 4,
         }
       };
       mapMarkers[1] = {
+        iconPath: '../../assets/images/mapmarker.png',
         id: 1,
         latitude: res.result.eVenue[0].location.coordinates[1],
         longitude: res.result.eVenue[0].location.coordinates[0],
-        width: 50,
-        height: 50,
         label: {
           content: '终点',
-          bgColor: '#435990',
-          color: '#fff'
+          bgColor: '#F8D34E',
+          color: '#000',
+          borderRadius: 6,
+          padding: 4,
         }
       };
       points[0] = {
@@ -111,7 +108,7 @@ Page({
       _this.setData({
         task: res.result,
         mapMarkers: mapMarkers,
-        'polyline.points': points,
+        'polyline[0].points': points,
         loading: false,
         userAppInfo: app.globalData.userAppInfo,
         'reputation.round':round,
@@ -212,15 +209,6 @@ Page({
         })
       } else if (_this.data.task.t_status == 0 && app.globalData.userAppInfo.openid == _this.data.task.t_requestor) {  // 关闭任务
         updateData.operation = 3
-        // wx.cloud.callFunction({
-        //   name: 'notiUser',
-        //   data: {
-        //     worker: app.globalData.userAppInfo,
-        //     task: _this.data.task
-        //   }
-        // }).then(res => {
-        //   console.log(res)
-        // })
       } else if (_this.data.task.t_status == 1 && app.globalData.userAppInfo.openid == _this.data.task.t_requestor){   // 完成任务
         // 计算新的reputation
         let mark = _this.data.markStars.filter((item) => { return item == 1 }).length;
@@ -235,12 +223,14 @@ Page({
       }).then(res =>{
         _this.setData({
           'task.t_status': updateData.operation,
-          dialogShow: false,
-          rateShow: false
         })
         _this.onLoad({_id : _this.data.task._id})
       });
     } 
+    _this.setData({
+      dialogShow: false,
+      rateShow: false
+    })
     
   }),
   tapDialogMapButton(e) {

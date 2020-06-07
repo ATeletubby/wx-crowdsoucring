@@ -121,7 +121,9 @@ Page({
         taskPay: taskPay,
       })
     }
-    let taskTotalPrice = Math.round((parseFloat(this.data.taskCost) + parseFloat(this.data.taskPay)) * 1000) / 1000;   
+    let taskTotalPrice = Math.round((parseFloat(this.data.taskCost) + parseFloat(this.data.taskPay)) * 1000) / 1000;
+    if (isNaN(taskTotalPrice))
+      taskTotalPrice = '输入错误'
     this.setData({
       taskTotalPrice: taskTotalPrice,
     })

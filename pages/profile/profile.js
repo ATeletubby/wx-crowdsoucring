@@ -17,16 +17,6 @@ Page({
     isPublish: true,
     pubTasks:[],
     parTasks:[],
-    slideButtons: [{
-      extClass: 'profile-zd',
-      text: '置顶',
-      src: '/page/weui/cell/icon_love.svg', // icon的路径
-    }, {
-      type: 'warn',
-      text: '删除',
-      extClass: 'test',
-      src: '/page/weui/cell/icon_del.svg', // icon的路径
-    }],
     loading: true,
     page: 0,
     isBottom: false,
@@ -242,23 +232,23 @@ Page({
       });
     }
   },
-  dealPubTask: function(e){
-    let pubTasks = this.data.pubTasks;
-    if (e.detail.index == 1){
-      pubTasks.splice(e.currentTarget.dataset.pubindex, 1);
-      this.setData({
-        pubTasks: pubTasks
-      })
-    } else {
-      let temp = pubTasks[0];
-      pubTasks[0] = pubTasks[e.currentTarget.dataset.pubindex];
-      pubTasks[e.currentTarget.dataset.pubindex] = temp;
-      this.setData({
-        pubTasks: pubTasks
-      })
-    }
+  // dealPubTask: function(e){
+  //   let pubTasks = this.data.pubTasks;
+  //   if (e.detail.index == 1){
+  //     pubTasks.splice(e.currentTarget.dataset.pubindex, 1);
+  //     this.setData({
+  //       pubTasks: pubTasks
+  //     })
+  //   } else {
+  //     let temp = pubTasks[0];
+  //     pubTasks[0] = pubTasks[e.currentTarget.dataset.pubindex];
+  //     pubTasks[e.currentTarget.dataset.pubindex] = temp;
+  //     this.setData({
+  //       pubTasks: pubTasks
+  //     })
+  //   }
 
-  },
+  // },
   authorizeUser: function(){
     wx.navigateTo({
       title: 'goLogin',
