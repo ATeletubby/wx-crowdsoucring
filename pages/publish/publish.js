@@ -11,8 +11,8 @@ Page({
     dtime: 10,   // 截止时间
     dtimeRange:[],
     taskVenue:[],
-    sVenueIndex: 0,   //起点
-    eVenueIndex: 1,   //终点
+    sVenue: {},   //起点
+    eVenue: {},   //终点
     textsize: 0,     //任务详情字数
     taskText: '',
     taskCost: 0,      //任务成本
@@ -27,6 +27,8 @@ Page({
     errormsg:'',
     error: false,
     new_id: null,
+    isVenue: false,
+    iseVenue: true
   },
   onLoad: function(){
     let _this = this;
@@ -61,8 +63,37 @@ Page({
     wx.cloud.callFunction({
       name: 'queryVenue',
     }).then(res => {
+      let taskVenue = res.result.data;
+      // 处理数据格式
+      taskVenue = taskVenue.sort((a, b)=>{
+        if (a.fletter > b.fletter)
+          return 1;
+        else if (a.fletter < b.fletter)
+          return -1;
+        else 
+          return 0;
+      })
+      let title = taskVenue[0].fletter, j = 0;
+      let tempVenue = [{
+        title: title,
+        item: []
+      }]
+      for (let index in taskVenue){
+        if (taskVenue[index].fletter == title){
+          tempVenue[j].item.push(taskVenue[index])
+        } else {
+          j++;
+          tempVenue.push({
+            title: taskVenue[index].fletter,
+            item: []
+          });
+          tempVenue[j].item.push(taskVenue[index]);
+          title = taskVenue[index].fletter;
+        }
+      }
+      console.log(tempVenue);
       _this.setData({
-        taskVenue: res.result.data
+        taskVenue: tempVenue
       })
     });
   },
@@ -78,8 +109,9 @@ Page({
       taskPay: 0,
       taskText: '',
       taskTypeIndex: 0,
-      sVenueIndex: 0,
-      eVenueIndex: 1,
+      sVenue: {name: "点击选择起点"},
+      eVenue: {name: "点击选择终点"},
+      isVenue: false
     })
   },
   taskTypeChange: function (e) {
@@ -91,17 +123,6 @@ Page({
     this.setData({
       dtime: (parseInt(e.detail.value) + 1)* 10
     })
-  },
-  taskVenueChange: function(e){
-    if(e.currentTarget.dataset.id == "eVenue"){
-      this.setData({
-        eVenueIndex: e.detail.value
-      })
-    } else {
-      this.setData({
-        sVenueIndex: e.detail.value
-      })
-    }
   },
   taskContextChange:function(e){
     this.setData({
@@ -137,7 +158,7 @@ Page({
     if (e.currentTarget.dataset.id == "tip-noti"){
       this.setData({
         tipShow: true,
-        tipContext: "开启后，在任务截止前5分钟，小程序发送提醒"
+        tipContext: "开启后，任务一旦被其它用户接收，小程序会发送提醒"
       })
     } else if(e.currentTarget.dataset.id == "tip-venue"){
       this.setData({
@@ -164,7 +185,6 @@ Page({
   },
 
   checkPay: util.debounce(function(){
-    console.log("1000");
     //检验登录(之后写到主函数)
     if (!app.globalData.userAppInfo) {
       wx.navigateTo({
@@ -243,8 +263,8 @@ Page({
     let _this = this;
     let data = this.data;
     // 计算起终点距离
-    let slo = data.taskVenue[data.sVenueIndex].location.coordinates;
-    let elo = data.taskVenue[data.eVenueIndex].location.coordinates;
+    let slo = data.sVenue.location.coordinates;
+    let elo = data.eVenue.location.coordinates;
     let t_seDistance = util.calDistance(slo[1], slo[0], elo[1], elo[0]);
     // 计算当前时间和截止时间戳
     let t_time = new Date().getTime();
@@ -256,8 +276,8 @@ Page({
         t_type: data.taskType[data.taskTypeIndex]._id,
         t_time: t_time,
         t_deadline: t_deadline,
-        t_eVenue: data.taskVenue[data.eVenueIndex]._id,
-        t_sVenue: data.taskVenue[data.sVenueIndex]._id,
+        t_eVenue: data.eVenue._id,
+        t_sVenue: data.sVenue._id,
         t_price: data.taskPay,
         t_cost: data.taskCost,
         t_context: data.taskText,
@@ -277,4 +297,32 @@ Page({
       })
     });
   },
+  openVenueList: function(e){
+    if(e.currentTarget.dataset.id == "eVenue"){
+      this.setData({
+        iseVenue: true
+      })
+    } else {
+      this.setData({
+        iseVenue: false
+      })
+    }
+    this.setData({
+      isVenue: true
+    })
+  },
+  selectVenue: function(e){
+    if (this.data.iseVenue){
+      this.setData({
+        eVenue: e.detail
+      })
+    } else {
+      this.setData({
+        sVenue: e.detail
+      })
+    }
+    this.setData({
+      isVenue: false
+    })
+  }
 })

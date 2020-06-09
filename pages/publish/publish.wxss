@@ -26,6 +26,7 @@
 }
 .weui-cell.pub-subtitle{
   padding-left: 0;
+  font-size: 30rpx;
 }
 .submit{
   margin-top: 20rpx;
@@ -38,4 +39,12 @@
 .weui-dialog__btn.disabled{
   pointer-events:none;
   background-color: #ccc;
+}
+.select_venue{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  background-color: #fff;
 }

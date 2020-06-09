@@ -1,4 +1,4 @@
-// components/task-box-slide/task-box-slide.js
+var app = getApp()
 Component({
   /**
    * 组件的属性列表
@@ -7,6 +7,11 @@ Component({
     task: {
       type: Object,
       value: {}
+    },
+    // 发布任务、参与任务的数组下标
+    index:{   
+      type: Number,
+      value: 0
     }
   },
 
@@ -30,22 +35,22 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    dealPubTask: function (e) {
-      let pubTasks = this.data.pubTasks;
+    dealTask: function (e) {
       if (e.detail.index == 1) {
-        // 删除该任务
-        pubTasks.splice(e.currentTarget.dataset.pubindex, 1);
-        this.setData({
-          pubTasks: pubTasks
-        })
+        // 数据库中删除该任务
+        if (this.properties.task.t_status != 1 && this.properties.task.t_requestor === app.globalData.userAppInfo.openid){
+          wx.cloud.callFunction({
+            name: 'deleteTask',
+            data: {
+              _id: this.properties.task._id
+            }
+          }).then(res => {
+          });
+        }
+        this.triggerEvent('deleteTask', { t_status: this.properties.task.t_status, index: this.properties.index })
       } else {
         //置顶该任务
-        let temp = pubTasks[0];
-        pubTasks[0] = pubTasks[e.currentTarget.dataset.pubindex];
-        pubTasks[e.currentTarget.dataset.pubindex] = temp;
-        this.setData({
-          pubTasks: pubTasks
-        })
+        this.triggerEvent('stickTask', { index: this.properties.index })
       }
     },
   }

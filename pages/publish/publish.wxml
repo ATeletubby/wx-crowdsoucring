@@ -1,7 +1,7 @@
 
 <view>
 <mp-toptips msg="{{errormsg}}" type="error" show="{{error}}"></mp-toptips>
-<view class="pub"> 
+<view class="pub" wx:if="{{!isVenue}}"> 
   <view class="weui-cell weui-cell_select">
     <text class="pub-number">1</text><text class="pub-title">任务类型</text>
     <picker bindchange="taskTypeChange" value="{{taskTypeIndex}}" range="{{taskType}}" range-key="name">
@@ -22,14 +22,10 @@
       <fa icon="fa fa-info-circle" class="pub-icon" bindtap="openTip" data-id="tip-venue"></fa>
     </view>
     <view class="weui-cell pub-subtitle"><text class="pub-title">起点</text>
-      <picker data-id="sVenue" bindchange="taskVenueChange" value="{{sVenueIndex}}" range="{{taskVenue}}" range-key="name">
-        <view class="weui-select weui-select_in-select-after">{{taskVenue[sVenueIndex].name}}</view>
-      </picker>
+        <view class="weui-cell__bd" style="text-indent: 14rpx" bindtap="openVenueList" data-id="sVenue">{{sVenue.name}}</view>
     </view>
     <view class="weui-cell pub-subtitle"><text class="pub-title">终点</text>
-      <picker data-id="eVenue" bindchange="taskVenueChange" value="{{eVenueIndex}}" range="{{taskVenue}}" range-key="name">
-        <view class="weui-select weui-select_in-select-after">{{taskVenue[eVenueIndex].name}}</view>
-      </picker>
+        <view class="weui-cell__bd" style="text-indent: 14rpx" bindtap="openVenueList" data-id="eVenue">{{eVenue.name}}</view>
     </view>
   </view>
   <view class="weui-cells weui-cells_after-title">
@@ -76,4 +72,7 @@
   {{paytipContext}}
   </mp-dialog>
 </view>
+</view>
+<view class="select_venue" wx:if="{{isVenue}}">
+<venue-list data="{{taskVenue}}" bind:selectVenue="selectVenue"></venue-list>
 </view>

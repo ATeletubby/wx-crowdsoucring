@@ -1,2 +1,27 @@
-<view>
+<mp-toptips msg="{{errormsg}}" type="error" show="{{error}}"></mp-toptips>
+<mp-toptips msg="{{editsuccessmsg}}" type="success" show="{{editsuccess}}"></mp-toptips>
+<view class="edit-profile">
+  <view class="edit-box">
+    <text class="pub-title" style="line-height: 100rpx">头像</text>
+    <view class="profile-avatar">
+     <image type="userAvatarUrl" src="{{userAppInfo.avatarUrl}}"  bindtap="changeProfile"></image>
+    </view>
+  </view>
+  <view class="edit-box">
+    <text class="pub-title">用户名</text>
+    <input data-id="name" class="weui-input" placeholder="必填" value="{{userAppInfo.name}}" bindinput="userinfoInput" />
+  </view>
+  <view class="edit-box">
+    <text class="pub-title">手机号</text>
+    <view class="profile-avatar">
+     <input data-id="phone" class="weui-input" placeholder="必填" value="{{userAppInfo.phone}}" bindinput="userinfoInput" />
+    </view>
+  </view>
+    <view class="edit-box">
+    <text class="pub-title">微信号</text>
+    <view class="profile-avatar">
+     <input data-id="wxh" class="weui-input" placeholder="选填" value="{{userAppInfo.wxh}}" bindinput="userinfoInput" />
+    </view>
+  </view>
+  <button class="submit" bindtap="saveProfile">保存</button>
 </view>

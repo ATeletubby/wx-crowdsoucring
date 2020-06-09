@@ -1,12 +1,20 @@
+<view class="config-block"  bindtap="openEditProfile">
+    用户设置
+</view>
 <view class="config-block">
   <button open-type="feedback" class="feedback-button">
     意见反馈
   </button>
 </view>
-<view class="config-block"  bindtap="showContact">
+ <view class="config-block">
+   <button open-type="contact" class="feedback-button">
+    联系我们
+  </button>
+</view>
+<!-- <view class="config-block"  bindtap="showContact">
   联系我们
 </view>
 <mp-dialog title="联系我们" show="{{contactShow}}" bindbuttontap="closeContact" buttons="{{[{ text: '确定' }]}}">
      <image class="detail_top_thumb" mode="heightFix"
       src="cloud://wx-debater-ccdoy.7778-wx-debater-ccdoy-1301348804/contact.jpg" />
-</mp-dialog>
+</mp-dialog> -->

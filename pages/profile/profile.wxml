@@ -1,24 +1,27 @@
 <view style="">
+<mp-toptips msg="{{errormsg}}" type="error" show="{{error}}"></mp-toptips>
+<mp-toptips msg="{{delsuccessmsg}}" type="success" show="{{delsuccess}}"></mp-toptips>
   <view class="profile_top">
     <view class="profile_top_hd">
       <view class="profile-avatar">
-        <image type="userAvatarUrl" src="{{userAppInfo.avatarUrl}}" wx:if="{{ userAppInfo }}" bindtap="editProfile" mode="widthFix"></image>
+        <!-- <image type="userAvatarUrl" src="{{userAppInfo.avatarUrl}}" wx:if="{{ userAppInfo }}" bindtap="editProfile" mode="widthFix"></image> -->
+        <image type="userAvatarUrl" src="{{userAppInfo.avatarUrl}}" wx:if="{{ userAppInfo }}" bindtap="editProfile"></image> 
         <open-data type="userAvatarUrl" lang="zh_CN" wx:else  bindtap="editProfile"></open-data>
       </view>
     </view>
     <view class="profile_top_bd" wx:if="{{ userAppInfo }}">
-      <open-data type="userNickName" lang="zh_CN" class="profile-text"></open-data>
+      <text class="profile-text">{{userAppInfo.name}}</text>
       <view class="">
         <fa icon="fa fa-star" style="color:#FFF08D;font-size:32rpx" wx:for="{{reputation.round}}" wx:key="item"></fa>
         <fa icon="fa fa-star-half" style="color:#FFF08D;font-size:32rpx" wx:if="{{reputation.half}}"></fa>
       </view>
       <view class="">
-        <text class="profile-text profile-data">发布任务：{{userAppInfo.pub_num}}</text>
-        <text class="profile-text profile-data">参与任务：{{userAppInfo.par_num}}</text>
+        <text class="profile-text profile-data">发布<text style="font-weight: bold;padding:0 4rpx">{{userAppInfo.pub_num}}</text>个任务</text>
+        <text class="profile-text profile-data">参与<text style="font-weight: bold;padding:0 4rpx">{{userAppInfo.par_num}}</text>个任务</text>
       </view>
       <view class="">
-        <text class="profile-text profile-data">声誉：{{ userAppInfo.reputation }}</text>
-        <text class="profile-text profile-data">众包币：{{userAppInfo.crowdCoin}}</text>
+        <text class="profile-text profile-data">声誉：<text style="font-weight: bold">{{ userAppInfo.reputation }}</text></text>
+        <text class="profile-text profile-data">众包币：<text style="font-weight: bold">{{userAppInfo.crowdCoin}}</text></text>
       </view>
     </view>
     <view class="profile_top_bd" wx:elif="{{ !userAppInfo }}">
@@ -50,16 +53,16 @@
       <text>你还未参与任何任务</text>
     </view>
     <block wx:if="{{isPublish}}">
-      <view class="weui-cells" wx:for="{{pubTasks}}" wx:for-index="key" bindtap="openTaskDetail" data-tid="{{item._id}}">
-          <task-box-slide task="{{item}}" data-pubIndex="{{key}}"></task-box-slide>
+      <view class="weui-cells" wx:for="{{pubTasks}}" wx:for-index="key" wx:key="key" bindtap="openTaskDetail" data-tid="{{item._id}}">
+          <task-box-slide task="{{item}}" index="{{key}}" bind:deleteTask = "deleteTask" bind:stickTask = "stickTask"></task-box-slide>
       </view>
     </block>
     <block wx:elif="{{!isPublish}}">
-      <view class="weui-cells" wx:for="{{parTasks}}" wx:for-index="key" bindtap="openTaskDetail" data-tid="{{item._id}}">
-        <mp-slideview buttons="{{slideButtons}}" bindbuttontap="dealPubTask" data-pubIndex="{{key}}">
-        <task-box-slide task="{{item}}"></task-box-slide>
-        </mp-slideview>
-
+      <view class="weui-cells" wx:for="{{parTasks}}" wx:for-index="key" wx:key="key" bindtap="openTaskDetail" data-tid="{{item._id}}">
+        <task-box-slide task="{{item}}" index="{{key}}" bind:deleteTask = "deleteTask" bind:stickTask = "stickTask"></task-box-slide>
+          <!-- <mp-slideview buttons="{{slideButtons}}" bindbuttontap="dealPubTask" data-pubIndex="{{key}}">
+          <task-box-slide task="{{item}}"></task-box-slide>
+          </mp-slideview> -->
       </view>
     </block>
   </view>

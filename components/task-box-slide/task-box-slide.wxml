@@ -1,4 +1,4 @@
-<mp-slideview buttons="{{slideButtons}}" bindbuttontap="dealPubTask" data-pubIndex="{{key}}">
+<mp-slideview buttons="{{slideButtons}}" bindbuttontap="dealTask" data-pubIndex="{{key}}">
   <view class="profile-item">
     <view class="profile-item_hd">
       <image class="profile-item_thumb" src="{{task.requestor[0].avatarUrl}}" />

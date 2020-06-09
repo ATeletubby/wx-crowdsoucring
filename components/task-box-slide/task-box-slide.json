@@ -2,6 +2,7 @@
   "component": true,
   "usingComponents": {
     "mp-slideview": "../../components/weui-miniprogram/slideview/slideview",
-    "mp-cell": "../../components/weui-miniprogram/cell/cell"
+    "mp-cell": "../../components/weui-miniprogram/cell/cell",
+    "mp-toptips": "../../components/weui-miniprogram/toptips/toptips"
   }
 }

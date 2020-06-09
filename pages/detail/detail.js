@@ -61,6 +61,7 @@ Page({
       res.result.t_time = util.formatTime(res.result.t_time);
       let mapMarkers= [];
       let points = [];
+      
       mapMarkers[0] = {
         iconPath: '../../assets/images/mapmarker.png',
         id: 0,

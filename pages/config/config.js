@@ -17,5 +17,11 @@ Page({
     this.setData({
       contactShow: false
     });
+  },
+  openEditProfile: function(){
+    wx.navigateTo({
+      title: 'goProfileEdit',
+      url: '/pages/editProfile/editProfile',
+    })
   }
 })

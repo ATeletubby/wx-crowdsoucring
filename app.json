@@ -37,8 +37,8 @@
       {
         "pagePath": "pages/profile/profile",
         "text": "我的",
-        "iconPath": "/assets/images/tabbar/profilenew.png",
-        "selectedIconPath": "/assets/images/tabbar/profilenew_active.png"
+        "iconPath": "/assets/images/tabbar/profile.png",
+        "selectedIconPath": "/assets/images/tabbar/profile_active.png"
       }
     ]
   },

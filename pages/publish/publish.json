@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "mp-toptips": "../../components/weui-miniprogram/toptips/toptips"
+    "mp-toptips": "../../components/weui-miniprogram/toptips/toptips",
+    "venue-list": "../../components/venue-list/venue-list"
   },
   "navigationBarTitleText": "发布任务"
 }

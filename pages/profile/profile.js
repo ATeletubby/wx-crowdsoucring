@@ -20,6 +20,10 @@ Page({
     loading: true,
     page: 0,
     isBottom: false,
+    error: false,
+    errormsg: '',
+    delsuccess: false,
+    delsuccessmsg: ''
   },
 
   /**
@@ -64,7 +68,6 @@ Page({
         }
       });
 
-
       // 得到用户发布任务
       if (app.globalData.userAppInfo) {
         wx.cloud.callFunction({
@@ -72,7 +75,8 @@ Page({
           data: {
             t_status: 3,
             t_requestor: app.globalData.userAppInfo.openid,
-            page: _this.data.page
+            // page: _this.data.page
+            page: 0
           }
         }).then(res => {
           console.log(res.result);
@@ -232,23 +236,54 @@ Page({
       });
     }
   },
-  // dealPubTask: function(e){
-  //   let pubTasks = this.data.pubTasks;
-  //   if (e.detail.index == 1){
-  //     pubTasks.splice(e.currentTarget.dataset.pubindex, 1);
-  //     this.setData({
-  //       pubTasks: pubTasks
-  //     })
-  //   } else {
-  //     let temp = pubTasks[0];
-  //     pubTasks[0] = pubTasks[e.currentTarget.dataset.pubindex];
-  //     pubTasks[e.currentTarget.dataset.pubindex] = temp;
-  //     this.setData({
-  //       pubTasks: pubTasks
-  //     })
-  //   }
+  deleteTask: function(e){
+    // 任务还未完成，弹出错误提示
+    if (e.detail.t_status == 1) {
+      this.setData({
+        error: true,
+        errormsg: '任务还未完成，无法删除'
+      })
+      return;
+    }
+    if (this.data.isPublish){
+      let pubTasks = this.data.pubTasks;
+      pubTasks.splice(e.detail.index, 1);
+      this.setData({
+        pubTasks: pubTasks,
+        delsuccess: true,
+        delsuccessmsg: '删除成功'
+      })
+    } else{
+      let parTasks = this.data.parTasks;
+      parTasks.splice(e.detail.index, 1);
+      this.setData({
+        parTasks: parTasks,
+        delsuccess: true,
+        delsuccessmsg: '临时删除成功'
+      })
+    }
 
-  // },
+  },
+  stickTask: function(e){
+    if (this.data.isPublish) {
+      let pubTasks = this.data.pubTasks;
+      let temp = pubTasks[0];
+      pubTasks[0] = pubTasks[e.detail.index];
+      pubTasks[e.detail.index] = temp;
+      this.setData({
+        pubTasks: pubTasks
+      })
+    } else {
+      let parTasks = this.data.parTasks;
+      let temp = parTasks[0];
+      parTasks[0] = parTasks[e.detail.index];
+      parTasks[e.detail.index] = temp;
+      this.setData({
+        parTasks: parTasks
+      })
+    }
+
+  },
   authorizeUser: function(){
     wx.navigateTo({
       title: 'goLogin',
@@ -262,7 +297,6 @@ Page({
       })
   },
   editProfile: function(e){
-    console.log(e);
     wx.navigateTo({
       title: 'goProfileEdit',
       url: '/pages/editProfile/editProfile',

@@ -2,6 +2,7 @@
   "usingComponents": {
     "mp-slideview": "../../components/weui-miniprogram/slideview/slideview",
     "mp-cell": "../../components/weui-miniprogram/cell/cell",
-    "task-box-slide": "../../components/task-box-slide/task-box-slide"
+    "task-box-slide": "../../components/task-box-slide/task-box-slide",
+    "mp-toptips": "../../components/weui-miniprogram/toptips/toptips"
   }
 }
