@@ -76,7 +76,6 @@ const calDistance =  (la1, lo1, la2, lo2) => {
   let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(La3 / 2), 2) + Math.cos(La1) * Math.cos(La2) * Math.pow(Math.sin(Lb3 / 2), 2)));
   s = s * 6378.137;
   s = Math.round(s * 10000) / 10000;
-  s = Math.round(s);
   return s
 }
 

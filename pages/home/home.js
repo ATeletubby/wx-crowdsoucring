@@ -108,6 +108,7 @@ Page({
         if (app.globalData.userLocation) {
           let slo = list[i].sVenue[0].location.coordinates;
           list[i].t_usDistance = util.calDistance(slo[1], slo[0], app.globalData.userLocation.latitude, app.globalData.userLocation.longitude)
+          list[i].t_usDistance = Math.round(list[i].t_usDistance * 100) / 100
         } else {
           list[i].t_usDistance = 'xxx';
         }
@@ -166,6 +167,7 @@ Page({
         if (app.globalData.userLocation) {
           let slo = list[i].sVenue[0].location.coordinates;
           list[i].t_usDistance = util.calDistance(slo[1], slo[0], app.globalData.userLocation.latitude, app.globalData.userLocation.longitude)
+          list[i].t_usDistance = Math.round(list[i].t_usDistance * 100) / 100
         } else {
           list[i].t_usDistance = 'xxx';
         }
@@ -278,6 +280,7 @@ Page({
         if (app.globalData.userLocation) {
           let slo = list[i].sVenue[0].location.coordinates;
           list[i].t_usDistance = util.calDistance(slo[1], slo[0], app.globalData.userLocation.latitude, app.globalData.userLocation.longitude)
+          list[i].t_usDistance = Math.round(list[i].t_usDistance * 100) / 100
         } else {
           list[i].t_usDistance = 'xxx';
         }
@@ -320,6 +323,7 @@ Page({
         if (app.globalData.userLocation) {
           let slo = list[i].sVenue[0].location.coordinates;
           list[i].t_usDistance = util.calDistance(slo[1], slo[0], app.globalData.userLocation.latitude, app.globalData.userLocation.longitude)
+          list[i].t_usDistance = Math.round(list[i].t_usDistance * 100) / 100
         } else {
           list[i].t_usDistance = 'xxx';
         }

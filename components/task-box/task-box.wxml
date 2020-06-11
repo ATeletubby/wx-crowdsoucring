@@ -1,16 +1,16 @@
 <view class="list-item" bindtap="openTaskDetail">
   <view class="list-item_hd">
-    <image class="list-item_thumb" mode="heightFix"
+    <image class="list-item_thumb" mode="HeightFix"
     src="{{task.requestor[0].avatarUrl}}" />
   </view>
   <view class="list-item_bd">
     <view class="list-cell">
       <span class="list-cell_bd">{{task.requestor[0].name}}</span>
-      <span class="list-cell_ft">距离你<b>{{task.t_usDistance}}m</b></span>
+      <span class="list-cell_ft">距离你<b>{{task.t_usDistance}}km</b></span>
     </view>
     <view class="list-cell">
       <span class="list-cell_bd list-timebegin">剩余{{task.t_deadline}}</span>
-      <span class="list-cell_ft">任务距离<b>{{task.t_seDistance}}km</b></span>
+      <span class="list-cell_ft">任务距离<b>{{task.t_seDistance}}m</b></span>
     </view>
     <view class="list-cell-tag">
         <span class="list-tag">#{{task.taskType[0].name}}</span>

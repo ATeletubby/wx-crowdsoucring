@@ -1,7 +1,6 @@
 var app = getApp()
 const util = require('../../utils/util.js');
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -215,6 +214,13 @@ Page({
       })
       return;
     }
+    if (!this.data.sVenue._id  || !this.data.eVenue._id) {
+      this.setData({
+        error: true,
+        errormsg: "请选择起点终点"
+      })
+      return;
+    }
 
     // 检验众包币
     if (app.globalData.userAppInfo.crowdCoin < this.data.taskTotalPrice) {
@@ -265,7 +271,7 @@ Page({
     // 计算起终点距离
     let slo = data.sVenue.location.coordinates;
     let elo = data.eVenue.location.coordinates;
-    let t_seDistance = util.calDistance(slo[1], slo[0], elo[1], elo[0]);
+    let t_seDistance = util.calDistance(slo[1], slo[0], elo[1], elo[0]) * 1000;
     // 计算当前时间和截止时间戳
     let t_time = new Date().getTime();
     let t_deadline = t_time + data.dtime * 60 * 1000;

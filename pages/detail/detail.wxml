@@ -5,11 +5,11 @@
     <text class="detail_title">任务发布者</text>
     <view class="detail_top_content">
       <view class="detail_top_hd">
-        <image class="detail-item_thumb" mode="heightFix" src="{{task.requestor[0].avatarUrl}}" />
+        <image class="detail-item_thumb" mode="HeightFix" src="{{task.requestor[0].avatarUrl}}" />
       </view>
       <view class="detail_top_bd">
         <view class="detail-text">{{task.requestor[0].name}}</view>
-        <view class="detail-text detail-phone" wx:if="{{userAppInfo.openid == task.requestor[0].openid || userAppInfo.openid == task.worker[0].openid }}"><fa icon="fa fa-phone"></fa>{{task.requestor[0].phone}}</view>
+        <view class="detail-text detail-phone" wx:if="{{userAppInfo && (userAppInfo.openid == task.requestor[0].openid || userAppInfo.openid == task.worker[0].openid) }}"><fa icon="fa fa-phone"></fa>{{task.requestor[0].phone}}</view>
         <view class="detail-text detail-phone" wx:else><fa icon="fa fa-phone"></fa> 接受任务后可查看联系方式</view>
       </view>
     </view>
@@ -18,7 +18,7 @@
     <text class="detail_title">任务接收者</text>
     <view class="detail_top_content">
       <view class="detail_top_hd">
-        <image class="detail-item_thumb" mode="heightFix" src="{{task.worker[0].avatarUrl}}" />
+        <image class="detail-item_thumb" mode="HeightFix" src="{{task.worker[0].avatarUrl}}" />
       </view>
       <view class="detail_top_bd">
         <view class="detail-text">{{task.worker[0].name}}</view>
@@ -49,9 +49,9 @@
         <text class="flex-row flex-cell">{{task.t_deadline}}</text>
       </view>
       <view class="detail-content flex-row flex-cell">
-        <text class="flex-row flex-cell detail-label">相关地点</text>
+        <text class="flex-row flex-cell detail-label">起点终点</text>
         <view class="flex-row flex-cell">{{task.sVenue[0].name}}、{{task.eVenue[0].name}}
-          <button class="map" size="mini" bindtap="showMap">地图查看</button>
+          <button class="map" size="mini" bindtap="showMap" style="width: 55%">地图查看</button>
         </view>
       </view>
       <view class="detail-content flex-row flex-cell">

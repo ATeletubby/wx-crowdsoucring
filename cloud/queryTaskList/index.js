@@ -20,9 +20,9 @@ exports.main = async (event, context) => {
     matchRule.t_type = _.in(event.t_type)
   }
   // 如果客户端传了t_context, 筛选t_context字段（首页搜索功能）
-  // if (event.t_context && event.t_context.length != 0 && event.t_context != ''){
-  //   matchRule.t_context = event.t_context
-  // }
+  if (event.t_context && event.t_context.length != 0 && event.t_context != ''){
+    matchRule.t_context = event.t_context
+  }
 
   let sortWay = 't_time';  //默认按发布时间降序
   let isAsc = -1;
@@ -42,7 +42,6 @@ exports.main = async (event, context) => {
   if (event.t_worker) {
     matchRule.t_worker = event.t_worker
   }
-
   return db.collection('task').aggregate()
     .match(matchRule)
     .lookup({
@@ -76,9 +75,18 @@ exports.main = async (event, context) => {
     .limit(limit)
     .end()
     .then(res => {
-      if (res.list.length > 0) {
-
+      let time = new Date().getTime();
+      let temp = [];
+      if (res.list.length > 0 && event.t_status === 0) {
+        for(let i = 0; i < res.list.length; i++){
+          console.log(res.list[i].t_deadline)
+          if (time < res.list[i].t_deadline){
+            temp.push(res.list[i]);
+          }
+        }
+      res.list = temp;
       }
+     
       return res
     })
     .catch(err => console.error(err))
