@@ -37,37 +37,9 @@ Page({
           'latitude': res.latitude,
           'longitude': res.longitude
         }
-        this.onShow() 
+        // this.onShow() 
       }
     })
-
-   // 获取未被分配的任务列表
-    // wx.cloud.callFunction({
-    //   name: 'queryTaskList',
-    //   data: {
-    //     t_status: 0,
-    //     userLocation: app.globalData.userLocation,
-    //     page: _this.data.page
-    //   }
-    // }).then(res => {
-    //   console.log(res.result);
-    //   // 处理返回的数据
-    //   let list = res.result.list;
-    //   for (let i = 0; i < list.length; i++) {
-    //     list[i].t_time = util.transformTime(list[i].t_time)
-    //     // 计算用户到起点的距离
-    //     if (app.globalData.userLocation) {
-    //       let slo = list[i].sVenue[0].location.coordinates;
-    //       list[i].t_usDistance = util.calDistance(slo[1], slo[0], app.globalData.userLocation.latitude, app.globalData.userLocation.longitude)
-    //     } else {
-    //       list[i].t_usDistance = 'xxx';
-    //     }
-    //   }
-    //   _this.setData({
-    //     loading: false,
-    //     tasks: list
-    //   })
-    // });
   },
   //每次首页显示都会刷新任务列表
   onShow:function(){
@@ -99,11 +71,14 @@ Page({
         isAsc: isAsc
       }
     }).then(res => {
-      console.log(res.result);
       // 处理返回的数据
       let list = res.result.list;
       for (let i = 0; i < list.length; i++) {
-        list[i].t_deadline = util.transformDtime(list[i].t_deadline)
+        if (list[i].t_deadline != 9999999999999)
+          list[i].t_deadline = util.transformDtime(list[i].t_deadline)
+        else
+          list[i].t_deadline = "无限时"
+        
         // 计算用户到起点的距离
         if (app.globalData.userLocation) {
           let slo = list[i].sVenue[0].location.coordinates;
@@ -117,6 +92,7 @@ Page({
         loading: false,
         tasks: res.result.list
       })
+      wx.hideLoading()
     });
   },
   // onPullDownRefresh: function(){
@@ -162,7 +138,10 @@ Page({
       let list = res.result.list;
       let tasks = _this.data.tasks;
       for (let i = 0; i < list.length; i++) {
-        list[i].t_deadline = util.transformDtime(list[i].t_deadline)
+        if (list[i].t_deadline != 9999999999999)
+          list[i].t_deadline = util.transformDtime(list[i].t_deadline)
+        else
+          list[i].t_deadline = "无限时"
         // 计算用户到起点的距离
         if (app.globalData.userLocation) {
           let slo = list[i].sVenue[0].location.coordinates;
@@ -275,7 +254,10 @@ Page({
       let list = res.result.list;
       let tasks = _this.data.tasks;
       for (let i = 0; i < list.length; i++) {
-        list[i].t_deadline = util.transformDtime(list[i].t_deadline)
+        if (list[i].t_deadline != 9999999999999)
+          list[i].t_deadline = util.transformDtime(list[i].t_deadline)
+        else
+          list[i].t_deadline = "无限时"
         // 计算用户到起点的距离
         if (app.globalData.userLocation) {
           let slo = list[i].sVenue[0].location.coordinates;
@@ -318,7 +300,10 @@ Page({
       // 处理返回的数据
       let list = res.result.list;
       for (let i = 0; i < list.length; i++) {
-        list[i].t_deadline = util.transformDtime(list[i].t_deadline)
+        if (list[i].t_deadline != 9999999999999)
+          list[i].t_deadline = util.transformDtime(list[i].t_deadline)
+        else
+          list[i].t_deadline = "无限时"
         // 计算用户到起点的距离
         if (app.globalData.userLocation) {
           let slo = list[i].sVenue[0].location.coordinates;

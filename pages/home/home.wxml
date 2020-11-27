@@ -33,7 +33,7 @@
 </view>
 
 <view class="list">
-    <mp-loading type="circle" wx:if="{{loading}}"></mp-loading>
+    <mp-loading type="circle" wx:if="{{loading}}">正在为您加载任务</mp-loading>
     <task-box wx:for="{{tasks}}" wx:for-item="item"  wx:key="unique" wx:for-index="index" task="{{item}}"></task-box>
     <mp-loading type="circle" wx:if="{{sloading}}"></mp-loading>
 </view>

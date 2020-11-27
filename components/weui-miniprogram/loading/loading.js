@@ -126,7 +126,7 @@ Component({
         },
         tips: {
             type: String,
-            value: '加载中'
+            value: '校园众包为您加载中'
         }
     },
     data: {

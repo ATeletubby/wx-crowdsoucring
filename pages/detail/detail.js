@@ -48,7 +48,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options._id);
+    wx.showLoading({
+      title: '任务加载中',
+      mask: true
+    })
     let _this = this;
     wx.cloud.callFunction({
       name: 'queryTask',
@@ -57,7 +60,10 @@ Page({
       }
     }).then(res => {
       res.result.t_timeDiff = util.transformTime(res.result.t_time);
-      res.result.t_deadline = util.transformDtime(res.result.t_deadline);
+      if (res.result.t_deadline != 9999999999999)
+        res.result.t_deadline = util.transformDtime(res.result.t_deadline);
+      else
+        res.result.t_deadline = "无限时"
       res.result.t_time = util.formatTime(res.result.t_time);
       let mapMarkers= [];
       let points = [];
@@ -115,6 +121,7 @@ Page({
         'reputation.round':round,
         'reputation.half': half
       })
+      wx.hideLoading();
     });
   },
 

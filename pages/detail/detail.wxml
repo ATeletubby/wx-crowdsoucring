@@ -1,5 +1,5 @@
 <!--任务详情页-->
-<mp-loading type="circle" wx:if="{{loading}}"></mp-loading>
+<!-- <mp-loading type="circle" wx:if="{{loading}}"></mp-loading> -->
 <view class="detail" wx:if="{{!loading}}">
   <view class="detail_block">
     <text class="detail_title">任务发布者</text>

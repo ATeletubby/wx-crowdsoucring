@@ -7,9 +7,8 @@ const _ = db.command
 const $ = db.command.aggregate
 // 云函数入口函数
 exports.main = async (event, context) => {
-
+  let time = new Date().getTime();
   const wxContext = cloud.getWXContext()
-  console.log(event)
   const tasks = []  //所有任务集合
   let limit = 4   //每页显示数量
   let matchRule = {
@@ -22,6 +21,11 @@ exports.main = async (event, context) => {
   // 如果客户端传了t_context, 筛选t_context字段（首页搜索功能）
   if (event.t_context && event.t_context.length != 0 && event.t_context != ''){
     matchRule.t_context = event.t_context
+  }
+  // 如果是发现页的查询，查询未过期的任务和无限期任务
+  if (event.t_status == 0){
+    console.log(time)
+    matchRule.t_deadline = _.gte(time)
   }
 
   let sortWay = 't_time';  //默认按发布时间降序
@@ -75,17 +79,19 @@ exports.main = async (event, context) => {
     .limit(limit)
     .end()
     .then(res => {
-      let time = new Date().getTime();
-      let temp = [];
-      if (res.list.length > 0 && event.t_status === 0) {
-        for(let i = 0; i < res.list.length; i++){
-          console.log(res.list[i].t_deadline)
-          if (time < res.list[i].t_deadline){
-            temp.push(res.list[i]);
-          }
-        }
-      res.list = temp;
-      }
+      console.log(res);
+      // let time = new Date().getTime();
+      // let temp = [];
+      // if (res.list.length > 0 && event.t_status === 0) {
+      //   for(let i = 0; i < res.list.length; i++){
+      //     // 筛选出没过时的任务和不限时任务
+      //     console.log(res.list[i].t_deadline, res.list[i].t_time)
+      //     if (time < res.list[i].t_deadline || res.list[i].t_deadline == res.list[i].t_time){
+      //       temp.push(res.list[i]);
+      //     }
+      //   }
+      // res.list = temp;
+      // }
      
       return res
     })

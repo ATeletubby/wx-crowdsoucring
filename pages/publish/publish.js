@@ -45,6 +45,10 @@ Page({
         value: i
       })
     }
+    dtimeRange.push({
+      name: '不限时',
+      value: 9999999999999    
+    })
     this.setData({
       dtimeRange: dtimeRange
     })
@@ -119,9 +123,15 @@ Page({
     })
   },
   dtimeChange: function(e){
-    this.setData({
-      dtime: (parseInt(e.detail.value) + 1)* 10
-    })
+    if (Number(e.detail.value) + 1 == this.data.dtimeRange.length){
+      this.setData({
+        dtime: 0
+      })
+    } else {
+      this.setData({
+        dtime: (parseInt(e.detail.value) + 1)* 10
+      })
+    }
   },
   taskContextChange:function(e){
     this.setData({
@@ -274,7 +284,12 @@ Page({
     let t_seDistance = util.calDistance(slo[1], slo[0], elo[1], elo[0]) * 1000;
     // 计算当前时间和截止时间戳
     let t_time = new Date().getTime();
-    let t_deadline = t_time + data.dtime * 60 * 1000;
+    let t_deadline;
+    if (data.dtime == 0)
+      t_deadline = 9999999999999;
+    else 
+      t_deadline = t_time + data.dtime * 60 * 1000;
+      
     wx.cloud.callFunction({
       name: 'addTask',
       data: {
